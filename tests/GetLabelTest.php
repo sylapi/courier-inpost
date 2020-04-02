@@ -1,12 +1,12 @@
 <?php
 
-namespace Sylapi\Courier\Enadawca;
+namespace Sylapi\Courier\Inpost;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class GetLabelTest extends PHPUnitTestCase
 {
-    private $enadawca = null;
+    private $inpost = null;
     private $soapMock = null;
 
     private $address = [
@@ -52,24 +52,21 @@ class GetLabelTest extends PHPUnitTestCase
             'options' => $this->options,
         ];
 
-        $this->enadawca = new Inpost();
-        $this->enadawca->initialize($params);
+        $this->inpost = new Inpost();
+        $this->inpost->initialize($params);
     }
 
     public function testGetLabelTestSuccess()
     {
-        $localXml = file_get_contents(__DIR__ . '/Mock/getPrintForParcelSuccess.xml');
+        $this->setMockHttpResponse('CompletePurchaseSuccess.txt');
+        $response = $this->request->send();
 
-        $this->soapMock->expects($this->any())->method('__call')->will($this->returnValue(
-            simplexml_load_string($localXml, 'SimpleXMLElement', LIBXML_NOCDATA))
-        );
-
-        $this->enadawca->setSoapClient($this->soapMock);
-        $this->enadawca->GetLabel();
-
-        $this->assertNull($this->enadawca->getError());
-        $this->assertTrue($this->enadawca->isSuccess());
-        $this->assertNotNull($this->enadawca->getResponse());
+        $this->assertInstanceOf('Omnipay\Mollie\Message\CompletePurchaseResponse', $response);
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isOpen());
+        $this->assertTrue($response->isPaid());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('tr_Qzin4iTWrU', $response->getTransactionReference());
     }
 
     public function testGetLabelTestFailure()
