@@ -12,7 +12,12 @@ Strict-Transport-Security: max-age=31556926; includeSubDomains
 X-Whom: dc1-web-2
 
 {
-    "success":false,
-    "error":{
+    "status":400,
+    "error":"invalid_action",
+    "message":"Action (cancel) can not be taken on shipment with status (confirmed).",
+    "details":{
+            "action":"cancel",
+            "shipment_status":"confirmed",
+            "shipment_id":283122871
     }
 }

@@ -1,0 +1,106 @@
+HTTP/1.1 201 Created
+Server: nginx/1.4.4
+Date: Sun, 19 Jan 2014 11:41:55 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 344
+Connection: keep-alive
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, DELETE
+Access-Control-Max-Age: 300
+Cache-Control: no-cache, no-store
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+X-Whom: dc1-web-2
+
+{
+    "href": "https://api-shipx-pl.easypack24.net/v1/shipments/1234567890",
+    "id": 1234567890,
+    "status": "created",
+    "tracking_number": null,
+    "service": "inpost_courier_standard",
+    "reference": "Test",
+    "is_return": false,
+    "application_id": 123,
+    "created_by_id": null,
+    "external_customer_id": "8877xxx",
+    "sending_method": null,
+    "mpk": {
+        "id": 1,
+        "name": "Nazwa miejsca powstania kosztów"
+    },
+    "comments": "dowolny komentarz",
+    "additional_services": [
+        "email",
+        "sms"
+    ],
+    "custom_attributes": {},
+    "cod": {
+        "amount": 12.5,
+        "currency": "PLN"
+    },
+    "insurance": {
+        "amount": 25.0,
+        "currency": "PLN"
+    },
+    "sender": {
+        "id": "123",
+        "name": "Nazwa",
+        "company_name": "InPost S.A.",
+        "first_name": "Jan",
+        "last_name": "Nowak",
+        "email": "sender@email.com",
+        "phone": "888000000",
+        "address": {
+            "id": "123",
+            "street": "Malborska",
+            "building_number": "130",
+            "line1": null,
+            "line2": null
+            "city": "Kraków",
+            "post_code": "30-624",
+            "country_code": "PL"
+        }
+    },
+    "receiver": {
+        "id": 123,
+        "name": "Name",
+        "company_name": "Company name",
+        "first_name": "Jan",
+        "last_name": "Kowalski",
+        "email": "receiver@example.com",
+        "phone": "888000000",
+        "address": {
+            "id": 123,
+            "street": "Malborska",
+            "building_number": "130",
+            "line1": null,
+            "line2": null,
+            "city": "Kraków",
+            "post_code": "30-624",
+            "country_code": "PL"
+        }
+    },
+    "selected_offer": null,
+    "offers": [],
+    "transactions": [],
+    "parcels": [
+        {
+            "id": 123,
+            "tracking_number": null,
+            "is_non_standard": false,
+            "template": null,
+            "dimensions": {
+                "length": 80.0,
+                "width": 360.0,
+                "height": 640.0,
+                "unit": "mm"
+            },
+            "weight": {
+                "amount": 25.0,
+                "unit": "kg"
+            }
+        }
+    ],
+    "end_of_week_collection": false,
+    "created_at": "2020-02-23T18:07:08.967+01:00",
+    "updated_at": "2020-02-23T18:07:08.967+01:00"
+}

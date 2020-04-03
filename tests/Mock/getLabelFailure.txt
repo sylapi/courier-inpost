@@ -12,6 +12,8 @@ Strict-Transport-Security: max-age=31556926; includeSubDomains
 X-Whom: dc1-web-2
 
 {
-    "error":{
-    }
+    "status":404,
+    "error":"resource_not_found",
+    "message":"Resource not found.",
+    "details":{}
 }

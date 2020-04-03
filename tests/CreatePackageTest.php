@@ -1,12 +1,12 @@
 <?php
 
-namespace Sylapi\Courier\Enadawca;
+namespace Sylapi\Courier\Inpost;
 
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class CreatePackageTest extends PHPUnitTestCase
 {
-    private $enadawca = null;
+    private $inpost = null;
     private $soapMock = null;
 
     private $address = [
@@ -25,22 +25,25 @@ class CreatePackageTest extends PHPUnitTestCase
         'width' => 30.00,
         'height' => 50.00,
         'depth' => 10.00,
-        'amount' => 2.10,
-        'bank_number' => '29100010001000100010001000',
-        'cod' => false,
-        'saturday' => false,
-        'references' => 'order #1234',
+        'amount' => 2390.10,
+        'currency' => 'PLN',
+        'cod' => true,
+        'references' => 'order #4567',
         'note' => 'Note',
         'custom' => [
-            'gabaryt' => 'XXL',
-        ]
+            'is_non_standard' => true,
+            'service' => 'inpost_locker_standard',
+            'external_customer_id' => 12345,
+            'target_point' => 'KRA01N'
+        ],
     ];
 
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->soapMock = $this->getMockBuilder('SoapClient')->disableOriginalConstructor()->getMock();
+
+        //$this->soapMock = $this->getMockBuilder('SoapClient')->disableOriginalConstructor()->getMock();
 
         $params = [
             'accessData' => [
@@ -52,28 +55,23 @@ class CreatePackageTest extends PHPUnitTestCase
             'options' => $this->options,
         ];
 
-        $this->enadawca = new Inpost();
-        $this->enadawca->initialize($params);
+        $this->inpost = new Inpost();
+        $this->inpost->initialize($params);
     }
 
 
     public function testCreatePackageSuccess()
     {
-        $localXml = file_get_contents(__DIR__ . '/Mock/addShippmentSuccess.xml');
+        $this->setMockHttpResponse('CreateShipmentSuccess.txt');
+        $response = $this->request->send();
 
-        $this->soapMock->expects($this->any())->method('__call')->will($this->returnValue(
-            simplexml_load_string($localXml, 'SimpleXMLElement', LIBXML_NOCDATA))
-        );
-
-        $this->enadawca->setSoapClient($this->soapMock);
-        $this->enadawca->CreatePackage();
-
-        $this->assertNull($this->enadawca->getError());
-        $this->assertTrue($this->enadawca->isSuccess());
-        $this->assertNotNull($this->enadawca->getResponse());
+        $this->assertInstanceOf('Sylapi\Courier\Inpost\CreatePackage', $response);
+        $this->assertNull($response->getError());
+        $this->assertTrue($response->isSuccess());
+        $this->assertNotNull($response->getResponse());
     }
 
-
+/*
     public function testCreatePackageFailure()
     {
         $localXml = file_get_contents(__DIR__ . '/Mock/addShippmentFailure.xml');
@@ -89,4 +87,5 @@ class CreatePackageTest extends PHPUnitTestCase
         $this->assertFalse($this->enadawca->isSuccess());
         $this->assertNull($this->enadawca->getResponse());
     }
+*/
 }
