@@ -14,6 +14,7 @@ abstract class Connect
     protected $error;
     protected $response;
     protected $code = '';
+    protected $test = false;
 
     public $organization_id;
 
@@ -71,6 +72,11 @@ abstract class Connect
         $this->session = $session;
     }
 
+    public function setUri($uri) {
+        $this->test = true;
+        $this->api_uri = $uri;
+    }
+
     public function call($uri, array $params = [], $request='GET', $file=false) {
 
         $headers = [
@@ -79,29 +85,33 @@ abstract class Connect
             'Authorization: Bearer '.$this->token,
         ];
 
-
-        $curl = curl_init($this->api_uri.$uri);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        if ($request == 'POST' || $request == 'PUT') {
-            $parameters = json_encode($params);
-
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $parameters);
+        if ($this->test == true) {
+            $result = file_get_contents($this->api_uri);
         }
+        else {
+            $curl = curl_init($this->api_uri . $uri);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-        $result = curl_exec($curl);
+            if ($request == 'POST' || $request == 'PUT') {
+                $parameters = json_encode($params);
+
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $parameters);
+            }
+
+            $result = curl_exec($curl);
+        }
 
         if ($file == false) {
             $result = ($result === false) ? false : json_decode($result, true);
         }
 
-        if ($result === false || !empty($result['error'])) {
-            return $result['error'];
+        if (empty($result)) {
+            return null;
         } else {
             return $result;
         }

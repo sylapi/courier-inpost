@@ -1,0 +1,4 @@
+{
+    "href": "https://api-shipx-pl.easypack24.net/v1/shipments/1",
+    "id": 1
+}

@@ -2,12 +2,11 @@
 
 namespace Sylapi\Courier\Inpost;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use PHPUnit\Framework\TestCase;
 
-class CreatePackageTest extends PHPUnitTestCase
+class CreatePackageTest extends TestCase
 {
     private $inpost = null;
-    private $soapMock = null;
 
     private $address = [
         'name' => 'Name Username',
@@ -42,13 +41,10 @@ class CreatePackageTest extends PHPUnitTestCase
     {
         parent::__construct($name, $data, $dataName);
 
-
-        //$this->soapMock = $this->getMockBuilder('SoapClient')->disableOriginalConstructor()->getMock();
-
         $params = [
             'accessData' => [
-                'login' => 'login',
-                'password' => 'password'
+                'token' => 'token',
+                'login' => 'login'
             ],
             'sender' => $this->address,
             'receiver' => $this->address,
@@ -62,30 +58,24 @@ class CreatePackageTest extends PHPUnitTestCase
 
     public function testCreatePackageSuccess()
     {
-        $this->setMockHttpResponse('CreateShipmentSuccess.txt');
-        $response = $this->request->send();
+        $this->inpost->setUri(__DIR__ . '/Mock/createShipmentSuccess.txt');
 
-        $this->assertInstanceOf('Sylapi\Courier\Inpost\CreatePackage', $response);
-        $this->assertNull($response->getError());
-        $this->assertTrue($response->isSuccess());
-        $this->assertNotNull($response->getResponse());
+        $this->inpost->CreatePackage();
+
+        $this->assertNull($this->inpost->getError());
+        $this->assertTrue($this->inpost->isSuccess());
+        $this->assertNotNull($this->inpost->getResponse());
     }
 
-/*
+
     public function testCreatePackageFailure()
     {
-        $localXml = file_get_contents(__DIR__ . '/Mock/addShippmentFailure.xml');
+        $this->inpost->setUri(__DIR__ . '/Mock/createShipmentFailure.txt');
 
-        $this->soapMock->expects($this->any())->method('__call')->will($this->returnValue(
-            simplexml_load_string($localXml, 'SimpleXMLElement', LIBXML_NOCDATA))
-        );
+        $this->inpost->CreatePackage();
 
-        $this->enadawca->setSoapClient($this->soapMock);
-        $this->enadawca->CreatePackage();
-
-        $this->assertNotNull($this->enadawca->getError());
-        $this->assertFalse($this->enadawca->isSuccess());
-        $this->assertNull($this->enadawca->getResponse());
+        $this->assertNotNull($this->inpost->getError());
+        $this->assertFalse($this->inpost->isSuccess());
+        $this->assertNull($this->inpost->getResponse());
     }
-*/
 }

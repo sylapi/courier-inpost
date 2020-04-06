@@ -1,7 +1,7 @@
 <?php
 namespace Sylapi\Courier\Inpost\Message;
 
-class createShipment
+class deleteShipment
 {
     private $data;
     private $response;
@@ -14,21 +14,36 @@ class createShipment
 
     public function send($connect) {
 
-        pr($this->data);
+        if (empty($this->data['custom_id']) && !empty($this->data['tracking_id'])) {
 
-        $uri = '/v1/shipments/' . $connect->organization_id;
+            $searchShipment = new searchShipment();
+            $searchShipment->prepareData(['tracking_number' => $this->data['tracking_id']]);
+            $searchShipment->send($connect);
+
+            if ($searchShipment->isSuccess()) {
+
+                $response = $searchShipment->getResponse();
+                if (count($response['items']) == 1) {
+
+                    $this->data['custom_id'] = $response['items'][0]['id'];
+                }
+            }
+        }
+
+        $uri = '/v1/shipments/' . $this->data['custom_id'];
         $this->response = $connect->call($uri, $this->data, 'DELETE');
     }
 
     public function getResponse() {
-        if (empty($this->response['error']) && isset($this->response)) {
+
+        if (!isset($this->response['error']) && isset($this->response)) {
             return $this->response;
         }
         return null;
     }
 
     public function isSuccess() {
-        if (!($this->response['error'])) {
+        if (empty($this->response['error'])) {
             return true;
         }
         return false;

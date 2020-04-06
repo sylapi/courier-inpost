@@ -2,8 +2,10 @@
 namespace Sylapi\Courier\Inpost;
 
 use Sylapi\Courier\Inpost\Message\createShipment;
+use Sylapi\Courier\Inpost\Message\deleteShipment;
 use Sylapi\Courier\Inpost\Message\getLabel;
 use Sylapi\Courier\Inpost\Message\shipmentsCalculate;
+use Sylapi\Courier\Inpost\Message\getParcel;
 
 class Inpost extends Connect
 {
@@ -25,11 +27,11 @@ class Inpost extends Connect
 
     public function ValidateData() {
 
-        $shipment = new shipmentsCalculate();
-        $shipment->prepareData($this->parameters);
-        $shipment->send($this);
+        $inpost = new shipmentsCalculate();
+        $inpost->prepareData($this->parameters);
+        $inpost->send($this);
 
-        if ($shipment->isSuccess()) {
+        if ($inpost->isSuccess()) {
             $response = true;
         }
         else {
@@ -37,60 +39,78 @@ class Inpost extends Connect
         }
 
         $this->setResponse($response);
-        $this->setError($shipment->getError());
+        $this->setError($inpost->getError());
     }
 
     public function GetLabel() {
 
-        if (empty($this->parameters['custom_id'])) {
+        $getLabel = new getLabel();
+        $getLabel->prepareData($this->parameters);
+        $getLabel->send($this);
 
-            $getLabel = new getLabel();
-            $getLabel->prepareData($this->parameters);
-            $getLabel->send($this);
+        $this->setResponse($getLabel->getResponse());
+        $this->setError($getLabel->getError());
 
-            $this->setResponse($getLabel->getResponse());
-            $this->setError($getLabel->getError());
+        if ($getLabel->isSuccess()) {
 
-            if ($getLabel->isSuccess()) {
+            $data = $this->getResponse();
 
-                $data = $this->getResponse();
-
-                $this->setResponse($data);
-            }
+            $this->setResponse($data);
         }
     }
 
     public function CreatePackage() {
 
-        $shipment = new createShipment();
-        $shipment->prepareData($this->parameters);
-        $shipment->send($this);
+        $inpost = new createShipment();
+        $inpost->prepareData($this->parameters);
+        $inpost->send($this);
 
-        $response = $shipment->getResponse();
+        $response = $inpost->getResponse();
 
-        if ($shipment->isSuccess()) {
+        if ($inpost->isSuccess()) {
             $response['custom_id'] = $response['custom_id'];
         }
 
         $this->setResponse($response);
-        $this->setError($shipment->getError());
+        $this->setError($inpost->getError());
     }
 
     public function CheckPrice() {
 
-        $shipment = new shipmentsCalculate();
-        $shipment->prepareData($this->parameters);
-        $shipment->send($this);
+        $inpost = new shipmentsCalculate();
+        $inpost->prepareData($this->parameters);
+        $inpost->send($this);
 
-        $response = $shipment->getResponse();
+        $response = $inpost->getResponse();
 
-        if ($shipment->isSuccess()) {
+        if ($inpost->isSuccess()) {
             $response['price'] = $response['calculated_charge_amount'];
         }
 
         $this->setResponse($response);
-        $this->setError($shipment->getError());
+        $this->setError($inpost->getError());
     }
 
+    public function DeletePackage() {
 
+        $inpost = new deleteShipment();
+        $inpost->prepareData($this->parameters);
+        $inpost->send($this);
+
+        $response = $inpost->getResponse();
+
+        $this->setResponse($response);
+        $this->setError($inpost->getError());
+    }
+
+    public function getParcel() {
+
+        $inpost = new getParcel();
+        $inpost->send($this);
+
+        $response = $inpost->getResponse();
+
+        $this->setResponse($response);
+        $this->setError($inpost->getError());
+    }
 }

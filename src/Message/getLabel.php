@@ -6,15 +6,15 @@ use Sylapi\Courier\Inpost\Message\searchShipment;
 class getLabel
 {
     private $data;
-    private $types = ['pdf', 'zpl', 'epl'];
+    private $format = ['pdf', 'zpl', 'epl'];
 
     public function prepareData($data=[]) {
 
         $this->data = [
             'tracking_id' => $data['tracking_id'],
             'custom_id' => $data['custom_id'],
-            'type' => (!empty($this->data['type'])) ? $this->data['type'] : $this->types[0],
-            'format' => (!empty($this->data['format'])) ? $this->data['format'] : 'A6',
+            'type' => (!empty($data['format'])) ? $data['format'] : 'A6',
+            'format' => (!empty($data['type'])) ? $data['type'] : $this->format[0],
         ];
 
         return $this;
@@ -38,14 +38,18 @@ class getLabel
             }
         }
 
-        pr($this->data);
+        $uri = '/v1/shipments/' . $this->data['custom_id'] . '/label?type='.$this->data['type'].'&format='.$this->data['format'];
+        $this->response = $connect->call($uri, [], 'GET', true);
 
-        echo $uri = '/v1/shipments/' . $this->data['custom_id'] . '/label?type='.$this->data['type'];
-        echo $this->response = $connect->call($uri, [], 'GET', true);
+
+        $check_response = json_decode($this->response, true);
+        if (!empty($check_response)) {
+            $this->response = $check_response;
+        }
     }
 
     public function getResponse() {
-        if (empty($this->response['error']) && isset($this->response)) {
+        if ($this->isSuccess() == true) {
             return $this->response;
         }
         return null;

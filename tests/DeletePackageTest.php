@@ -4,7 +4,7 @@ namespace Sylapi\Courier\Inpost;
 
 use PHPUnit\Framework\TestCase;
 
-class GetLabelTest extends TestCase
+class DeletePackageTest extends TestCase
 {
     private $inpost = null;
 
@@ -17,8 +17,7 @@ class GetLabelTest extends TestCase
                 'token' => 'token',
                 'login' => 'login'
             ],
-            'custom_id' => 1,
-            'tracking_id' => 1
+            'custom_id' => 1
         ];
 
         $this->inpost = new Inpost();
@@ -26,11 +25,11 @@ class GetLabelTest extends TestCase
     }
 
 
-    public function testGetLabelSuccess()
+    public function testDeletePackageSuccess()
     {
-        $this->inpost->setUri(__DIR__ . '/Mock/getLabelSuccess.txt');
+        $this->inpost->setUri(__DIR__ . '/Mock/deleteShipmentSuccess.txt');
 
-        $this->inpost->GetLabel();
+        $this->inpost->DeletePackage();
 
         $this->assertNull($this->inpost->getError());
         $this->assertTrue($this->inpost->isSuccess());
@@ -38,12 +37,12 @@ class GetLabelTest extends TestCase
     }
 
 
-    public function testGetLabelFailure()
+    public function testDeletePackageFailure()
     {
-        $this->inpost->setUri(__DIR__ . '/Mock/getLabelFailure.txt');
+        $this->inpost->setUri(__DIR__ . '/Mock/deleteShipmentFailure.txt');
 
-        $this->inpost->GetLabel();
-echo $this->inpost->getResponse();
+        $this->inpost->DeletePackage();
+
         $this->assertNotNull($this->inpost->getError());
         $this->assertFalse($this->inpost->isSuccess());
         $this->assertNull($this->inpost->getResponse());
