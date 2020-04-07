@@ -25,6 +25,19 @@ class createShipment
                     'country_code' => $data['receiver']['country'],
                 ]
             ],
+            'sender' => [
+                'email' => $data['sender']['email'],
+                'phone' => $data['sender']['phone'],
+                'first_name' => $data['sender']['name'],
+                'last_name' => '',
+                'address' => [
+                    'line1' => $data['sender']['street'],
+                    'line2' => '',
+                    'city' => $data['sender']['city'],
+                    'post_code' => $data['sender']['postcode'],
+                    'country_code' => $data['sender']['country'],
+                ]
+            ],
             'parcels' => [
                 'dimensions' => [
                     'length' => ($data['options']['depth'] * 10),

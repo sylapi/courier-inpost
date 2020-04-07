@@ -6,6 +6,8 @@ use Sylapi\Courier\Inpost\Message\deleteShipment;
 use Sylapi\Courier\Inpost\Message\getLabel;
 use Sylapi\Courier\Inpost\Message\shipmentsCalculate;
 use Sylapi\Courier\Inpost\Message\getParcel;
+use Sylapi\Courier\Inpost\Message\dispatchOrders;
+use Sylapi\Courier\Inpost\Message\searchShipment;
 
 class Inpost extends Connect
 {
@@ -66,9 +68,40 @@ class Inpost extends Connect
         $inpost->send($this);
 
         $response = $inpost->getResponse();
+        $response['tracking_id'] = 0;
 
         if ($inpost->isSuccess()) {
-            $response['custom_id'] = $response['custom_id'];
+            $this->parameters['custom_id'] = $response['id'];
+
+            /*
+            $dispatchOrders = new dispatchOrders();
+            $dispatchOrders->prepareData($this->parameters);
+            $dispatchOrders->send($this);
+
+            $responseDispatchOrders = $dispatchOrders->getResponse();
+
+            $this->setError($dispatchOrders->getError());
+            */
+
+            $searchShipment = new searchShipment();
+            $searchShipment->prepareData($this->parameters);
+
+            for ($i=1; $i<=3; $i++) {
+                if ($response['tracking_id'] == 0) {
+
+                    sleep(1);
+
+                    $searchShipment->send($this);
+                    if ($searchShipment->isSuccess()) {
+
+                        $responseSearchShipment = $searchShipment->getResponse();
+                        if (count($responseSearchShipment['items']) == 1) {
+
+                            $response['tracking_id'] = $responseSearchShipment['items'][0]['tracking_number'];
+                        }
+                    }
+                }
+            }
         }
 
         $this->setResponse($response);
