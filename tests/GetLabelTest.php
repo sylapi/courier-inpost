@@ -43,7 +43,7 @@ class GetLabelTest extends TestCase
         $this->inpost->setUri(__DIR__ . '/Mock/getLabelFailure.txt');
 
         $this->inpost->GetLabel();
-echo $this->inpost->getResponse();
+
         $this->assertNotNull($this->inpost->getError());
         $this->assertFalse($this->inpost->isSuccess());
         $this->assertNull($this->inpost->getResponse());
