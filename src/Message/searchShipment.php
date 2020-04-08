@@ -20,6 +20,12 @@ class searchShipment
 
             $uri .= '?tracking_number='.$this->data['tracking_number'];
         }
+        else {
+            if (!empty($this->data['custom_id'])) {
+
+                $uri .= '?id='.$this->data['custom_id'];
+            }
+        }
 
         $this->response = $connect->call($uri, [], 'GET');
     }
