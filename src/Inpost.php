@@ -4,6 +4,7 @@ namespace Sylapi\Courier\Inpost;
 use Sylapi\Courier\Inpost\Message\createShipment;
 use Sylapi\Courier\Inpost\Message\deleteShipment;
 use Sylapi\Courier\Inpost\Message\getLabel;
+use Sylapi\Courier\Inpost\Message\getPackage;
 use Sylapi\Courier\Inpost\Message\shipmentsCalculate;
 use Sylapi\Courier\Inpost\Message\getParcel;
 use Sylapi\Courier\Inpost\Message\dispatchOrders;
@@ -68,10 +69,9 @@ class Inpost extends Connect
         $inpost->send($this);
 
         $response = $inpost->getResponse();
-        $response['tracking_id'] = 0;
 
         if ($inpost->isSuccess()) {
-            $this->parameters['custom_id'] = $response['id'];
+            $response['custom_id'] = $response['id'];
 
             /*
             $dispatchOrders = new dispatchOrders();
@@ -83,26 +83,35 @@ class Inpost extends Connect
             $this->setError($dispatchOrders->getError());
             */
 
-            $searchShipment = new searchShipment();
-            $searchShipment->prepareData($this->parameters);
+            if (empty($response['tracking_id'])) {
 
-            for ($i=1; $i<=3; $i++) {
-                if ($response['tracking_id'] == 0) {
+                $this->parameters['custom_id'] = $response['custom_id'];
 
-                    sleep(1);
+                $searchShipment = new searchShipment();
+                $searchShipment->prepareData($this->parameters);
+                $searchShipment->send($this);
+                if ($searchShipment->isSuccess()) {
 
-                    $searchShipment->send($this);
-                    if ($searchShipment->isSuccess()) {
+                    $responseSearchShipment = $searchShipment->getResponse();
+                    if (count($responseSearchShipment['items']) == 1) {
 
-                        $responseSearchShipment = $searchShipment->getResponse();
-                        if (count($responseSearchShipment['items']) == 1) {
-
-                            $response['tracking_id'] = $responseSearchShipment['items'][0]['tracking_number'];
-                        }
+                        $response['tracking_id'] = $responseSearchShipment['items'][0]['tracking_number'];
                     }
                 }
             }
         }
+
+        $this->setResponse($response);
+        $this->setError($inpost->getError());
+    }
+
+    public function GetPackage() {
+
+        $inpost = new getPackage();
+        $inpost->prepareData($this->parameters);
+        $inpost->send($this);
+
+        $response = $inpost->getResponse();
 
         $this->setResponse($response);
         $this->setError($inpost->getError());
