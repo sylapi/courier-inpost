@@ -11,7 +11,7 @@ class createShipment
         $this->data = null;
 
         $shippment = [
-            'id' => "SHIPMENT1",
+            'id' => "SHIPMENT2",
             'receiver' => [
                 'email' => $data['receiver']['email'],
                 'phone' => $data['receiver']['phone'],
@@ -104,7 +104,30 @@ class createShipment
     }
 
     public function getError() {
-        return (!empty($this->response['error'])) ? $this->response['error'].': '.$this->response['message'] : null;
+        if (!empty($this->response['error'])) {
+            $error = $this->response['error'].': '.$this->response['message'];
+
+            if (!empty($this->response['details'])) {
+
+                $details = $this->response['details'];
+                while(!empty($details)) {
+
+                    $value = null;
+                    foreach($details as $key => $v) {
+                        $error .= ' => ' . $key;
+
+                        $value = $v;
+                        break;
+                    }
+
+                    $details = $value;
+                }
+            }
+
+            return $error;
+        }
+
+        return null;
     }
 
     public function getCode() {
