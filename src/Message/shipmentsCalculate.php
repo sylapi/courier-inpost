@@ -1,4 +1,5 @@
 <?php
+
 namespace Sylapi\Courier\Inpost\Message;
 
 class shipmentsCalculate
@@ -6,55 +7,53 @@ class shipmentsCalculate
     private $data;
     private $response;
 
-    public function prepareData($data=[]) {
-
+    public function prepareData($data = [])
+    {
         $this->data = null;
 
         $shippment = [
-            'id' => "SHIPMENT1",
+            'id'       => 'SHIPMENT1',
             'receiver' => [
-                'email' => $data['receiver']['email'],
-                'phone' => $data['receiver']['phone'],
+                'email'      => $data['receiver']['email'],
+                'phone'      => $data['receiver']['phone'],
                 'first_name' => $data['receiver']['name'],
-                'last_name' => '',
-                'address' => [
-                    'line1' => $data['receiver']['street'],
-                    'line2' => '',
-                    'city' => $data['receiver']['city'],
-                    'post_code' => $data['receiver']['postcode'],
+                'last_name'  => '',
+                'address'    => [
+                    'line1'        => $data['receiver']['street'],
+                    'line2'        => '',
+                    'city'         => $data['receiver']['city'],
+                    'post_code'    => $data['receiver']['postcode'],
                     'country_code' => $data['receiver']['country'],
-                ]
+                ],
             ],
             'parcels' => [
                 'dimensions' => [
                     'length' => ($data['options']['depth'] * 10),
-                    'width' => ($data['options']['width'] * 10),
+                    'width'  => ($data['options']['width'] * 10),
                     'height' => ($data['options']['height'] * 10),
-                    'unit' => 'mm'
+                    'unit'   => 'mm',
                 ],
                 'weight' => [
                     'amount' => $data['options']['weight'],
-                    'unit' => 'kg'
-                ]
+                    'unit'   => 'kg',
+                ],
             ],
             'reference' => $data['options']['references'],
-            'comments' => $data['options']['note'],
+            'comments'  => $data['options']['note'],
             'insurance' => [
-                'amount' => $data['options']['amount'],
-                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN'
+                'amount'   => $data['options']['amount'],
+                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN',
             ],
-            'service' => (!empty($data['options']['custom']['service'])) ? $data['options']['custom']['service'] : 'inpost_locker_standard',
-            'is_non_standard' => (isset($data['options']['custom']['is_non_standard'])) ? $data['options']['custom']['is_non_standard'] : true
+            'service'         => (!empty($data['options']['custom']['service'])) ? $data['options']['custom']['service'] : 'inpost_locker_standard',
+            'is_non_standard' => (isset($data['options']['custom']['is_non_standard'])) ? $data['options']['custom']['is_non_standard'] : true,
         ];
 
         if ($data['options']['cod'] == true) {
-
             $shippment['cod'] = [
-                'amount' => $data['options']['amount'],
-                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN'
+                'amount'   => $data['options']['amount'],
+                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN',
             ];
         }
-
 
         if (!empty($data['options']['custom']['external_customer_id'])) {
             $shippment['external_customer_id'] = $data['options']['custom']['external_customer_id'];
@@ -64,44 +63,46 @@ class shipmentsCalculate
             $shippment['custom_attributes']['target_point'] = $data['options']['custom']['target_point'];
         }
 
-
         $this->data['shipments'][] = $shippment;
 
         return $this;
     }
 
-    public function send($connect) {
-
-        $uri = '/v1/organizations/' . $connect->organization_id . '/shipments/calculate';
+    public function send($connect)
+    {
+        $uri = '/v1/organizations/'.$connect->organization_id.'/shipments/calculate';
         $this->response = $connect->call($uri, $this->data, 'POST');
     }
 
-    public function getResponse() {
+    public function getResponse()
+    {
         if (empty($this->response['error']) && isset($this->response[0]['calculated_charge_amount'])) {
             return $this->response[0];
         }
+
         return null;
     }
 
-    public function isSuccess() {
+    public function isSuccess()
+    {
         if (!($this->response['error'])) {
             return true;
         }
+
         return false;
     }
 
-    public function getError() {
+    public function getError()
+    {
         if (!empty($this->response['error'])) {
             $error = $this->response['error'].': '.$this->response['message'];
 
             if (!empty($this->response['details'])) {
-
                 $details = $this->response['details'];
-                while(!empty($details)) {
-
+                while (!empty($details)) {
                     $value = null;
-                    foreach($details as $key => $v) {
-                        $error .= ' => ' . $key;
+                    foreach ($details as $key => $v) {
+                        $error .= ' => '.$key;
 
                         $value = $v;
                         break;
@@ -117,7 +118,8 @@ class shipmentsCalculate
         return null;
     }
 
-    public function getCode() {
+    public function getCode()
+    {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;
     }
 }

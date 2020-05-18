@@ -9,31 +9,31 @@ class CreatePackageTest extends TestCase
     private $inpost = null;
 
     private $address = [
-        'name' => 'Name Username',
-        'company' => '',
-        'street' => 'Street 1',
+        'name'     => 'Name Username',
+        'company'  => '',
+        'street'   => 'Street 1',
         'postcode' => '12-123',
-        'city' => 'Warszawa',
-        'country' => 'PL',
-        'phone' => '600600600',
-        'email' => 'name@example.com'
+        'city'     => 'Warszawa',
+        'country'  => 'PL',
+        'phone'    => '600600600',
+        'email'    => 'name@example.com',
     ];
 
     private $options = [
-        'weight' => 3.00,
-        'width' => 30.00,
-        'height' => 50.00,
-        'depth' => 10.00,
-        'amount' => 2390.10,
-        'currency' => 'PLN',
-        'cod' => true,
+        'weight'     => 3.00,
+        'width'      => 30.00,
+        'height'     => 50.00,
+        'depth'      => 10.00,
+        'amount'     => 2390.10,
+        'currency'   => 'PLN',
+        'cod'        => true,
         'references' => 'order #4567',
-        'note' => 'Note',
-        'custom' => [
-            'is_non_standard' => true,
-            'service' => 'inpost_locker_standard',
+        'note'       => 'Note',
+        'custom'     => [
+            'is_non_standard'      => true,
+            'service'              => 'inpost_locker_standard',
             'external_customer_id' => 12345,
-            'target_point' => 'KRA01N'
+            'target_point'         => 'KRA01N',
         ],
     ];
 
@@ -44,21 +44,20 @@ class CreatePackageTest extends TestCase
         $params = [
             'accessData' => [
                 'token' => 'token',
-                'login' => 'login'
+                'login' => 'login',
             ],
-            'sender' => $this->address,
+            'sender'   => $this->address,
             'receiver' => $this->address,
-            'options' => $this->options,
+            'options'  => $this->options,
         ];
 
         $this->inpost = new Inpost();
         $this->inpost->initialize($params);
     }
 
-
     public function testCreatePackageSuccess()
     {
-        $this->inpost->setUri(__DIR__ . '/Mock/createShipmentSuccess.txt');
+        $this->inpost->setUri(__DIR__.'/Mock/createShipmentSuccess.txt');
 
         $this->inpost->CreatePackage();
 
@@ -67,10 +66,9 @@ class CreatePackageTest extends TestCase
         $this->assertNotNull($this->inpost->getResponse());
     }
 
-
     public function testCreatePackageFailure()
     {
-        $this->inpost->setUri(__DIR__ . '/Mock/createShipmentFailure.txt');
+        $this->inpost->setUri(__DIR__.'/Mock/createShipmentFailure.txt');
 
         $this->inpost->CreatePackage();
 

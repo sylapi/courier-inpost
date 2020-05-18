@@ -1,54 +1,54 @@
 <?php
+
 namespace Sylapi\Courier\Inpost\Message;
 
 class shipments
 {
     private $data;
 
-    public function prepareData($data=[]) {
-
+    public function prepareData($data = [])
+    {
         $shippment = [
-            'id' => "SHIPMENT1",
+            'id'       => 'SHIPMENT1',
             'receiver' => [
-                'email' => $data['receiver']['email'],
-                'phone' => $data['receiver']['phone'],
+                'email'      => $data['receiver']['email'],
+                'phone'      => $data['receiver']['phone'],
                 'first_name' => $data['receiver']['name'],
-                'last_name' => '',
-                'address' => [
-                    'line1' => $data['receiver']['street'],
-                    'line2' => '',
-                    'city' => $data['receiver']['city'],
-                    'post_code' => $data['receiver']['postcode'],
+                'last_name'  => '',
+                'address'    => [
+                    'line1'        => $data['receiver']['street'],
+                    'line2'        => '',
+                    'city'         => $data['receiver']['city'],
+                    'post_code'    => $data['receiver']['postcode'],
                     'country_code' => $data['receiver']['country'],
-                ]
+                ],
             ],
             'parcels' => [
                 'dimensions' => [
                     'length' => $data['options']['depth'],
-                    'width' => $data['options']['width'],
+                    'width'  => $data['options']['width'],
                     'height' => $data['options']['height'],
-                    'unit' => 'cm'
+                    'unit'   => 'cm',
                 ],
                 'weight' => [
                     'amount' => $data['options']['weight'],
-                    'unit' => 'kg'
-                ]
+                    'unit'   => 'kg',
+                ],
             ],
             'reference' => $data['options']['references'],
-            'comments' => $data['options']['note'],
+            'comments'  => $data['options']['note'],
             'insurance' => [
-                'amount' => $data['options']['amount'],
-                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN'
+                'amount'   => $data['options']['amount'],
+                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN',
             ],
-            'service' => 'inpost_locker_standard',
-            'is_non_standard' => (isset($data['options']['custom']['is_non_standard'])) ? $data['options']['custom']['is_non_standard'] : true
+            'service'         => 'inpost_locker_standard',
+            'is_non_standard' => (isset($data['options']['custom']['is_non_standard'])) ? $data['options']['custom']['is_non_standard'] : true,
         ];
 
         if ($data['options']['cod'] == true) {
-
             $shippment['cod'] = [
-                'amount' => $data['options']['amount'],
-                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN'
+                'amount'   => $data['options']['amount'],
+                'currency' => (!empty($data['options']['currency'])) ? $data['options']['currency'] : 'PLN',
             ];
         }
 
@@ -69,8 +69,8 @@ class shipments
         return $this;
     }
 
-    public function getUri($organization_id=1) {
-
-        return '/v1/organizations/' . $organization_id . '/shipments/calculate';
+    public function getUri($organization_id = 1)
+    {
+        return '/v1/organizations/'.$organization_id.'/shipments/calculate';
     }
 }
