@@ -15,19 +15,18 @@ class DeletePackageTest extends TestCase
         $params = [
             'accessData' => [
                 'token' => 'token',
-                'login' => 'login'
+                'login' => 'login',
             ],
-            'custom_id' => 1
+            'custom_id' => 1,
         ];
 
         $this->inpost = new Inpost();
         $this->inpost->initialize($params);
     }
 
-
     public function testDeletePackageSuccess()
     {
-        $this->inpost->setUri(__DIR__ . '/Mock/deleteShipmentSuccess.txt');
+        $this->inpost->setUri(__DIR__.'/Mock/deleteShipmentSuccess.txt');
 
         $this->inpost->DeletePackage();
 
@@ -36,10 +35,9 @@ class DeletePackageTest extends TestCase
         $this->assertNotNull($this->inpost->getResponse());
     }
 
-
     public function testDeletePackageFailure()
     {
-        $this->inpost->setUri(__DIR__ . '/Mock/deleteShipmentFailure.txt');
+        $this->inpost->setUri(__DIR__.'/Mock/deleteShipmentFailure.txt');
 
         $this->inpost->DeletePackage();
 

@@ -18,67 +18,81 @@ abstract class Connect
 
     public $organization_id;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->api_uri = self::API_LIVE;
     }
 
-    protected function setLogin($organization_id) {
+    protected function setLogin($organization_id)
+    {
         return $this->organization_id = $organization_id;
     }
 
-    protected function setToken($token) {
+    protected function setToken($token)
+    {
         return $this->token = $token;
     }
 
-    public function getApiUri() {
+    public function getApiUri()
+    {
         return $this->api_uri;
     }
 
-    public function sandbox() {
+    public function sandbox()
+    {
         return $this->api_uri = self::API_SANDBOX;
     }
 
-    public function isSuccess() {
+    public function isSuccess()
+    {
         return (empty($this->error)) ? true : false;
     }
 
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
-    protected function setError($value) {
+    protected function setError($value)
+    {
         if (!empty($value)) {
             return $this->error[] = $value;
         }
     }
 
-    protected function setCode($value) {
+    protected function setCode($value)
+    {
         return $this->code = $value;
     }
 
-    public function getCode() {
+    public function getCode()
+    {
         return $this->code;
     }
 
-    protected function setResponse($value) {
+    protected function setResponse($value)
+    {
         return $this->response = $value;
     }
 
-    public function getResponse() {
+    public function getResponse()
+    {
         return $this->response;
     }
 
-    public function setSession($session) {
+    public function setSession($session)
+    {
         $this->session = $session;
     }
 
-    public function setUri($uri) {
+    public function setUri($uri)
+    {
         $this->test = true;
         $this->api_uri = $uri;
     }
 
-    public function call($uri, array $params = [], $request='GET', $file=false) {
-
+    public function call($uri, array $params = [], $request = 'GET', $file = false)
+    {
         $headers = [
             'Accept: application/json',
             'Content-Type: application/json',
@@ -87,9 +101,8 @@ abstract class Connect
 
         if ($this->test == true) {
             $result = file_get_contents($this->api_uri);
-        }
-        else {
-            $curl = curl_init($this->api_uri . $uri);
+        } else {
+            $curl = curl_init($this->api_uri.$uri);
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -117,12 +130,12 @@ abstract class Connect
         }
     }
 
-    public function debug() {
-
+    public function debug()
+    {
         return [
-            'success' => $this->isSuccess(),
-            'code' => $this->getCode(),
-            'error' => $this->getError(),
+            'success'  => $this->isSuccess(),
+            'code'     => $this->getCode(),
+            'error'    => $this->getError(),
             'response' => $this->getResponse(),
         ];
     }
