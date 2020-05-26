@@ -2,11 +2,25 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class deleteShipment
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class deleteShipment
 {
+    /**
+     * @var
+     */
     private $data;
+    /**
+     * @var
+     */
     private $response;
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $this->data = $data;
@@ -14,6 +28,9 @@ class deleteShipment
         return $this;
     }
 
+    /**
+     * @param $connect
+     */
     public function send($connect)
     {
         if (empty($this->data['custom_id']) && !empty($this->data['tracking_id'])) {
@@ -33,6 +50,9 @@ class deleteShipment
         $this->response = $connect->call($uri, $this->data, 'DELETE');
     }
 
+    /**
+     * @return null
+     */
     public function getResponse()
     {
         if (!isset($this->response['error']) && isset($this->response)) {
@@ -42,6 +62,9 @@ class deleteShipment
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccess()
     {
         if (empty($this->response['error'])) {
@@ -51,11 +74,17 @@ class deleteShipment
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getError()
     {
         return (!empty($this->response['error'])) ? $this->response['error'].': '.$this->response['message'] : null;
     }
 
+    /**
+     * @return int
+     */
     public function getCode()
     {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;

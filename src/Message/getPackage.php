@@ -2,10 +2,21 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class getPackage
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class getPackage
 {
+    /**
+     * @var
+     */
     private $data;
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $this->data = [
@@ -16,6 +27,9 @@ class getPackage
         return $this;
     }
 
+    /**
+     * @param $connect
+     */
     public function send($connect)
     {
         $uri = '/v1/organizations/'.$connect->organization_id.'/shipments';
@@ -31,6 +45,9 @@ class getPackage
         $this->response = $connect->call($uri, [], 'GET');
     }
 
+    /**
+     * @return |null
+     */
     public function getResponse()
     {
         if ($this->isSuccess() == true) {
@@ -43,6 +60,9 @@ class getPackage
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccess()
     {
         if (!isset($this->response['error'])) {
@@ -54,11 +74,17 @@ class getPackage
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getError()
     {
         return (!empty($this->response['error'])) ? $this->response['error'].': '.$this->response['message'] : null;
     }
 
+    /**
+     * @return int
+     */
     public function getCode()
     {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;

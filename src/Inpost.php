@@ -4,17 +4,26 @@ namespace Sylapi\Courier\Inpost;
 
 use Sylapi\Courier\Inpost\Message\createShipment;
 use Sylapi\Courier\Inpost\Message\deleteShipment;
-use Sylapi\Courier\Inpost\Message\dispatchOrders;
 use Sylapi\Courier\Inpost\Message\getLabel;
 use Sylapi\Courier\Inpost\Message\getPackage;
 use Sylapi\Courier\Inpost\Message\getParcel;
 use Sylapi\Courier\Inpost\Message\searchShipment;
 use Sylapi\Courier\Inpost\Message\shipmentsCalculate;
 
+/**
+ * Class Inpost
+ * @package Sylapi\Courier\Inpost
+ */
 class Inpost extends Connect
 {
+    /**
+     * @var
+     */
     protected $session;
 
+    /**
+     * @param $parameters
+     */
     public function initialize($parameters)
     {
         $this->parameters = $parameters;
@@ -27,6 +36,9 @@ class Inpost extends Connect
         }
     }
 
+    /**
+     *
+     */
     public function ValidateData()
     {
         $inpost = new shipmentsCalculate();
@@ -43,6 +55,9 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
+    /**
+     *
+     */
     public function GetLabel()
     {
         $getLabel = new getLabel();
@@ -59,6 +74,9 @@ class Inpost extends Connect
         }
     }
 
+    /**
+     *
+     */
     public function CreatePackage()
     {
         $inpost = new createShipment();
@@ -70,16 +88,6 @@ class Inpost extends Connect
         if ($inpost->isSuccess()) {
             $response['custom_id'] = $response['id'];
 
-            /*
-            $dispatchOrders = new dispatchOrders();
-            $dispatchOrders->prepareData($this->parameters);
-            $dispatchOrders->send($this);
-
-            $responseDispatchOrders = $dispatchOrders->getResponse();
-
-            $this->setError($dispatchOrders->getError());
-            */
-
             if (empty($response['tracking_id'])) {
                 $this->parameters['custom_id'] = $response['custom_id'];
 
@@ -88,7 +96,7 @@ class Inpost extends Connect
                 $searchShipment->send($this);
                 if ($searchShipment->isSuccess()) {
                     $responseSearchShipment = $searchShipment->getResponse();
-                    if (count($responseSearchShipment['items']) == 1) {
+                    if (!empty($responseSearchShipment['items']) && count($responseSearchShipment['items']) == 1) {
                         $response['tracking_id'] = $responseSearchShipment['items'][0]['tracking_number'];
                     }
                 }
@@ -99,6 +107,9 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
+    /**
+     *
+     */
     public function GetPackage()
     {
         $inpost = new getPackage();
@@ -111,6 +122,9 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
+    /**
+     *
+     */
     public function CheckPrice()
     {
         $inpost = new shipmentsCalculate();
@@ -127,6 +141,9 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
+    /**
+     *
+     */
     public function DeletePackage()
     {
         $inpost = new deleteShipment();
@@ -139,6 +156,9 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
+    /**
+     *
+     */
     public function getParcel()
     {
         $inpost = new getParcel();

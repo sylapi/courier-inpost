@@ -2,10 +2,21 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class shipments
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class shipments
 {
+    /**
+     * @var
+     */
     private $data;
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $shippment = [
@@ -69,6 +80,10 @@ class shipments
         return $this;
     }
 
+    /**
+     * @param int $organization_id
+     * @return string
+     */
     public function getUri($organization_id = 1)
     {
         return '/v1/organizations/'.$organization_id.'/shipments/calculate';

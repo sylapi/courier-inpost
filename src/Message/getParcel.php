@@ -2,11 +2,25 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class getParcel
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class getParcel
 {
+    /**
+     * @var
+     */
     private $data;
+    /**
+     * @var string
+     */
     private $uri = 'http://api.paczkomaty.pl/?do=listmachines_xml';
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $this->data = $data;
@@ -14,6 +28,9 @@ class getParcel
         return $this;
     }
 
+    /**
+     * @param $connect
+     */
     public function send($connect)
     {
         $curl = curl_init($this->uri);
@@ -36,6 +53,9 @@ class getParcel
         $this->response = $this->data['machines'];
     }
 
+    /**
+     * @return |null
+     */
     public function getResponse()
     {
         if (empty($this->response['error']) && isset($this->response)) {
@@ -45,6 +65,9 @@ class getParcel
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccess()
     {
         if (!isset($this->response['error'])) {
@@ -54,11 +77,17 @@ class getParcel
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getError()
     {
         return (!empty($this->response['error'])) ? $this->response['error'].': '.$this->response['message'] : null;
     }
 
+    /**
+     * @return int
+     */
     public function getCode()
     {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;

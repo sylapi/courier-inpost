@@ -2,11 +2,25 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class createShipment
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class createShipment
 {
+    /**
+     * @var
+     */
     private $data;
+    /**
+     * @var
+     */
     private $response;
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $this->data = null;
@@ -81,12 +95,18 @@ class createShipment
         return $this;
     }
 
+    /**
+     * @param $connect
+     */
     public function send($connect)
     {
         $uri = '/v1/organizations/'.$connect->organization_id.'/shipments';
         $this->response = $connect->call($uri, $this->data, 'POST');
     }
 
+    /**
+     * @return null
+     */
     public function getResponse()
     {
         if (empty($this->response['error']) && isset($this->response)) {
@@ -96,6 +116,9 @@ class createShipment
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccess()
     {
         if (!isset($this->response['error'])) {
@@ -105,6 +128,9 @@ class createShipment
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getError()
     {
         if (!empty($this->response['error'])) {
@@ -114,11 +140,14 @@ class createShipment
                 $details = $this->response['details'];
                 while (!empty($details)) {
                     $value = null;
-                    foreach ($details as $key => $v) {
-                        $error .= ' => '.$key;
 
-                        $value = $v;
-                        break;
+                    if (!empty($details) && is_array($details)) {
+                        foreach ($details as $key => $v) {
+                            $error .= ' => ' . $key;
+
+                            $value = $v;
+                            break;
+                        }
                     }
 
                     $details = $value;
@@ -131,6 +160,9 @@ class createShipment
         return null;
     }
 
+    /**
+     * @return int
+     */
     public function getCode()
     {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;

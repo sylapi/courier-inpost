@@ -2,11 +2,25 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class getLabel
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class getLabel
 {
+    /**
+     * @var
+     */
     private $data;
+    /**
+     * @var array
+     */
     private $format = ['pdf', 'zpl', 'epl'];
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $this->data = [
@@ -19,6 +33,9 @@ class getLabel
         return $this;
     }
 
+    /**
+     * @param $connect
+     */
     public function send($connect)
     {
         if (empty($this->data['custom_id']) && !empty($this->data['tracking_id'])) {
@@ -43,6 +60,9 @@ class getLabel
         }
     }
 
+    /**
+     * @return |null
+     */
     public function getResponse()
     {
         if ($this->isSuccess() == true) {
@@ -52,6 +72,9 @@ class getLabel
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccess()
     {
         if (!isset($this->response['error'])) {
@@ -61,11 +84,17 @@ class getLabel
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getError()
     {
         return (!empty($this->response['error'])) ? $this->response['error'].': '.$this->response['message'] : null;
     }
 
+    /**
+     * @return int
+     */
     public function getCode()
     {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;

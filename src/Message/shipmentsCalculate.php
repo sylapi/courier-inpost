@@ -2,11 +2,25 @@
 
 namespace Sylapi\Courier\Inpost\Message;
 
+/**
+ * Class shipmentsCalculate
+ * @package Sylapi\Courier\Inpost\Message
+ */
 class shipmentsCalculate
 {
+    /**
+     * @var
+     */
     private $data;
+    /**
+     * @var
+     */
     private $response;
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function prepareData($data = [])
     {
         $this->data = null;
@@ -68,12 +82,18 @@ class shipmentsCalculate
         return $this;
     }
 
+    /**
+     * @param $connect
+     */
     public function send($connect)
     {
         $uri = '/v1/organizations/'.$connect->organization_id.'/shipments/calculate';
         $this->response = $connect->call($uri, $this->data, 'POST');
     }
 
+    /**
+     * @return |null
+     */
     public function getResponse()
     {
         if (empty($this->response['error']) && isset($this->response[0]['calculated_charge_amount'])) {
@@ -83,6 +103,9 @@ class shipmentsCalculate
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccess()
     {
         if (!($this->response['error'])) {
@@ -92,6 +115,9 @@ class shipmentsCalculate
         return false;
     }
 
+    /**
+     * @return string|null
+     */
     public function getError()
     {
         if (!empty($this->response['error'])) {
@@ -118,6 +144,9 @@ class shipmentsCalculate
         return null;
     }
 
+    /**
+     * @return int
+     */
     public function getCode()
     {
         return (!empty($this->response['status'])) ? $this->response['status'] : 0;
