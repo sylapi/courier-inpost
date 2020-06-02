@@ -108,7 +108,7 @@ class shipmentsCalculate
      */
     public function isSuccess()
     {
-        if (!($this->response['error'])) {
+        if (!isset($this->response['error'])) {
             return true;
         }
 
