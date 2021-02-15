@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class dispatchOrders
- * @package Sylapi\Courier\Inpost\Message
+ * Class dispatchOrders.
  */
 class dispatchOrders
 {
@@ -19,6 +18,7 @@ class dispatchOrders
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])

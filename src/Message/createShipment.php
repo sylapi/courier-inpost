@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class createShipment
- * @package Sylapi\Courier\Inpost\Message
+ * Class createShipment.
  */
 class createShipment
 {
@@ -19,6 +18,7 @@ class createShipment
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])
@@ -143,7 +143,7 @@ class createShipment
 
                     if (!empty($details) && is_array($details)) {
                         foreach ($details as $key => $v) {
-                            $error .= ' => ' . $key;
+                            $error .= ' => '.$key;
 
                             $value = $v;
                             break;

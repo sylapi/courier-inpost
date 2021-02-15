@@ -3,18 +3,12 @@
 namespace Sylapi\Courier\Inpost;
 
 /**
- * Class Connect
- * @package Sylapi\Courier\Inpost
+ * Class Connect.
  */
 abstract class Connect
 {
-    /**
-     *
-     */
     const API_LIVE = 'https://api-shipx-pl.easypack24.net';
-    /**
-     *
-     */
+
     const API_SANDBOX = 'https://sandbox-api-shipx-pl.easypack24.net';
 
     /**
@@ -65,6 +59,7 @@ abstract class Connect
 
     /**
      * @param $organization_id
+     *
      * @return mixed
      */
     protected function setLogin($organization_id)
@@ -74,6 +69,7 @@ abstract class Connect
 
     /**
      * @param $token
+     *
      * @return mixed
      */
     protected function setToken($token)
@@ -115,6 +111,7 @@ abstract class Connect
 
     /**
      * @param $value
+     *
      * @return mixed
      */
     protected function setError($value)
@@ -126,6 +123,7 @@ abstract class Connect
 
     /**
      * @param $value
+     *
      * @return mixed
      */
     protected function setCode($value)
@@ -143,6 +141,7 @@ abstract class Connect
 
     /**
      * @param $value
+     *
      * @return mixed
      */
     protected function setResponse($value)
@@ -177,9 +176,10 @@ abstract class Connect
 
     /**
      * @param $uri
-     * @param array $params
+     * @param array  $params
      * @param string $request
-     * @param bool $file
+     * @param bool   $file
+     *
      * @return bool|false|mixed|string|null
      */
     public function call($uri, array $params = [], $request = 'GET', $file = false)

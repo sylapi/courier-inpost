@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class getLabel
- * @package Sylapi\Courier\Inpost\Message
+ * Class getLabel.
  */
 class getLabel
 {
@@ -19,6 +18,7 @@ class getLabel
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])

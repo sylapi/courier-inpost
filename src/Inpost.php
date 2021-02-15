@@ -11,8 +11,7 @@ use Sylapi\Courier\Inpost\Message\searchShipment;
 use Sylapi\Courier\Inpost\Message\shipmentsCalculate;
 
 /**
- * Class Inpost
- * @package Sylapi\Courier\Inpost
+ * Class Inpost.
  */
 class Inpost extends Connect
 {
@@ -36,9 +35,6 @@ class Inpost extends Connect
         }
     }
 
-    /**
-     *
-     */
     public function ValidateData()
     {
         $inpost = new shipmentsCalculate();
@@ -55,9 +51,6 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
-    /**
-     *
-     */
     public function GetLabel()
     {
         $getLabel = new getLabel();
@@ -74,9 +67,6 @@ class Inpost extends Connect
         }
     }
 
-    /**
-     *
-     */
     public function CreatePackage()
     {
         $inpost = new createShipment();
@@ -107,9 +97,6 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
-    /**
-     *
-     */
     public function GetPackage()
     {
         $inpost = new getPackage();
@@ -122,9 +109,6 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
-    /**
-     *
-     */
     public function CheckPrice()
     {
         $inpost = new shipmentsCalculate();
@@ -141,9 +125,6 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
-    /**
-     *
-     */
     public function DeletePackage()
     {
         $inpost = new deleteShipment();
@@ -156,9 +137,6 @@ class Inpost extends Connect
         $this->setError($inpost->getError());
     }
 
-    /**
-     *
-     */
     public function getParcel()
     {
         $inpost = new getParcel();
