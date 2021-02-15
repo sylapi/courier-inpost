@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class deleteShipment
- * @package Sylapi\Courier\Inpost\Message
+ * Class deleteShipment.
  */
 class deleteShipment
 {
@@ -19,6 +18,7 @@ class deleteShipment
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])

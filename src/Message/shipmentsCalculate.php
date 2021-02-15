@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class shipmentsCalculate
- * @package Sylapi\Courier\Inpost\Message
+ * Class shipmentsCalculate.
  */
 class shipmentsCalculate
 {
@@ -19,6 +18,7 @@ class shipmentsCalculate
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])

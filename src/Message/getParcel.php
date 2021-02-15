@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class getParcel
- * @package Sylapi\Courier\Inpost\Message
+ * Class getParcel.
  */
 class getParcel
 {
@@ -19,6 +18,7 @@ class getParcel
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])

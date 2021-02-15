@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class searchShipment
- * @package Sylapi\Courier\Inpost\Message
+ * Class searchShipment.
  */
 class searchShipment
 {
@@ -19,6 +18,7 @@ class searchShipment
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])

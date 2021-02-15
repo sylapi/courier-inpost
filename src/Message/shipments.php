@@ -3,8 +3,7 @@
 namespace Sylapi\Courier\Inpost\Message;
 
 /**
- * Class shipments
- * @package Sylapi\Courier\Inpost\Message
+ * Class shipments.
  */
 class shipments
 {
@@ -15,6 +14,7 @@ class shipments
 
     /**
      * @param array $data
+     *
      * @return $this
      */
     public function prepareData($data = [])
@@ -82,6 +82,7 @@ class shipments
 
     /**
      * @param int $organization_id
+     *
      * @return string
      */
     public function getUri($organization_id = 1)
