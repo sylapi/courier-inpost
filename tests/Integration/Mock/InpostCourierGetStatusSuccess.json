@@ -1,0 +1,42 @@
+{
+    "tracking_number": "612345678901234567890123",
+    "type": "inpost_locker_standard",
+    "service": "inpost_locker_standard",
+    "status": "dispatched_by_sender",
+    "custom_attributes": {
+        "size": "A",
+        "target_point_id": "KRA000",
+        "target_machine_detail": {
+            "href": "https://api-pl-points.easypack24.net/v1/points/AAA000",
+            "name": "AAA000",
+            "opening_hours": "PN-PT 09:00-16:00",
+            "location_description": "Beta Agencja Usługowo-Finansowa",
+            "location": {
+                "latitude": 50.26899,
+                "longitude": 18.97812
+            },
+            "address": {
+                "line1": "ul.Reymonta 999",
+                "line2": "33-333 Kraków"
+            },
+            "type": [
+                "parcel_locker"
+            ]
+        }
+    },
+    "tracking_details": [
+        {
+            "status": "dispatched_by_sender",
+            "origin_status": "NWP",
+            "datetime": "2015-09-17T11:28:00.000+02:00"
+        },
+        {
+            "status": "confirmed",
+            "origin_status": "PPN",
+            "datetime": "2015-09-17T10:28:00.000+02:00"
+        }
+    ],
+    "expected_flow": [],
+    "created_at": "2015-09-17T08:00:00.000+02:00",
+    "updated_at": "2015-09-17T11:28:00.000+02:00"
+}

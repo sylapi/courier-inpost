@@ -1,6 +1,0 @@
-{
-    "status":404,
-    "error":"resource_not_found",
-    "message":"Resource not found.",
-    "details":{}
-}

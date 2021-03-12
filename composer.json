@@ -7,7 +7,6 @@
         "inpost",
         "shipping"
     ],
-    "homepage": "https://github.com/sylapi/courier-inpost",
     "license": "MIT",
     "authors": [
         {
@@ -15,14 +14,26 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
-        "sylapi/courier": "^1.0"
+        "php": ">=7.4.0",
+        "sylapi/courier": "2.0.*",
+        "guzzlehttp/guzzle": "^7.2",
+        "rakit/validation": "^1.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^0.12.77"
     },
     "autoload": {
         "psr-4": { "Sylapi\\Courier\\Inpost\\" : "src/" }
     },
+    "autoload-dev": {
+        "psr-4": { "Sylapi\\Courier\\Inpost\\Tests\\": "tests/" }
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse src tests",
+        "coverage": "XDEBUG_MODE=coverage  vendor/bin/phpunit --verbose --coverage-text",
+        "coverage-html": "XDEBUG_MODE=coverage  vendor/bin/phpunit --coverage-html ./coverage/"
+    },     
     "prefer-stable": false
 }

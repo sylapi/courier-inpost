@@ -1,0 +1,152 @@
+{
+    "href":"http://sandbox-api-shipx-pl.easypack24.net/v1/organizations/1111/shipments?id=1234567890\u0026owner_id=2222\u0026page=1\u0026per_page=100\u0026sort_by=id\u0026sort_order=desc",
+    "count":1,
+    "page":1,
+    "per_page":100,
+    "items":[
+       {
+          "href":"https://sandbox-api-shipx-pl.easypack24.net/v1/shipments/1234567890",
+          "id":1234567890,
+          "status":"confirmed",
+          "tracking_number":"520000014966200008039999",
+          "service":"inpost_courier_standard",
+          "reference":"Zawartość przesyłki",
+          "is_return":false,
+          "application_id":1646,
+          "created_by_id":null,
+          "external_customer_id":null,
+          "sending_method":null,
+          "end_of_week_collection":false,
+          "comments":null,
+          "mpk":null,
+          "additional_services":[
+             
+          ],
+          "custom_attributes":{
+             "dispatch_order_id":123456
+          },
+          "cod":{
+             "amount":null,
+             "currency":null
+          },
+          "insurance":{
+             "amount":null,
+             "currency":null
+          },
+          "sender":{
+             "id":20600782,
+             "name":null,
+             "company_name":"Nazwa Firmy/Nadawca",
+             "first_name":null,
+             "last_name":null,
+             "email":"mail@test.com",
+             "phone":"500600700",
+             "address":{
+                "id":20460334,
+                "street":"Ulica",
+                "building_number":"2a 1",
+                "line1":null,
+                "line2":null,
+                "city":"Miasto",
+                "post_code":"66-100",
+                "country_code":"PL"
+             }
+          },
+          "receiver":{
+             "id":20600781,
+             "name":null,
+             "company_name":"Jan Nowak",
+             "first_name":"Jan",
+             "last_name":"Nowak",
+             "email":"mail@test2.com",
+             "phone":"500600700",
+             "address":{
+                "id":20460333,
+                "street":"Widok",
+                "building_number":"15 1896",
+                "line1":null,
+                "line2":null,
+                "city":"Świebodzin",
+                "post_code":"66-200",
+                "country_code":"PL"
+             }
+          },
+          "selected_offer":{
+             "id":2447679,
+             "status":"bought",
+             "expires_at":null,
+             "rate":null,
+             "currency":"PLN",
+             "additional_services":[
+                
+             ],
+             "carrier":{
+                "id":"inpost_courier",
+                "name":"InPost Kurier",
+                "description":"InPost Express - Przesyłki kurierskie"
+             },
+             "service":{
+                "id":"inpost_courier_standard",
+                "name":"Kurier standard",
+                "description":"Przesyłka kurierska standardowa"
+             },
+             "unavailability_reasons":null
+          },
+          "offers":[
+             {
+                "id":2447679,
+                "status":"bought",
+                "expires_at":null,
+                "rate":null,
+                "currency":"PLN",
+                "additional_services":[
+                   
+                ],
+                "carrier":{
+                   "id":"inpost_courier",
+                   "name":"InPost Kurier",
+                   "description":"InPost Express - Przesyłki kurierskie"
+                },
+                "service":{
+                   "id":"inpost_courier_standard",
+                   "name":"Kurier standard",
+                   "description":"Przesyłka kurierska standardowa"
+                },
+                "unavailability_reasons":null
+             }
+          ],
+          "transactions":[
+             {
+                "id":1897242,
+                "status":"success",
+                "offer_id":2447679,
+                "details":{
+                   
+                },
+                "created_at":"2021-03-11T13:25:30.772+01:00",
+                "updated_at":"2021-03-11T13:25:31.284+01:00"
+             }
+          ],
+          "parcels":[
+             {
+                "id":10356616,
+                "tracking_number":"520000014966200008039999",
+                "is_non_standard":false,
+                "template":null,
+                "dimensions":{
+                   "length":80.0,
+                   "width":360.0,
+                   "height":640.0,
+                   "unit":"mm"
+                },
+                "weight":{
+                   "amount":2.0,
+                   "unit":"kg"
+                }
+             }
+          ],
+          "created_at":"2021-03-11T13:25:30.430+01:00",
+          "updated_at":"2021-03-11T13:25:31.296+01:00"
+       }
+    ]
+ }
