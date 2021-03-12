@@ -12,11 +12,11 @@ class InpostBooking extends Booking
     public function validate(): bool
     {
         $rules = [
-            'shipmentId'   => 'required'
+            'shipmentId'   => 'required',
         ];
 
         $data = [
-            'shipmentId' => $this->getShipmentId()
+            'shipmentId' => $this->getShipmentId(),
         ];
 
         $validator = new Validator();

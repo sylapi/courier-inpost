@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use Sylapi\Courier\Entities\Label;
-use Sylapi\Courier\Helpers\ResponseHelper;
 use Sylapi\Courier\Contracts\CourierGetLabels;
-use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Contracts\Label as LabelContract;
+use Sylapi\Courier\Entities\Label;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Helpers\ResponseHelper;
 
 class InpostCourierGetLabels implements CourierGetLabels
 {
@@ -31,18 +31,19 @@ class InpostCourierGetLabels implements CourierGetLabels
                     $this->getPath($shipmentId),
                     [
                         'query' => [
-                            'type' => $this->session->parameters()->getLabelType()
-                        ]
+                            'type' => $this->session->parameters()->getLabelType(),
+                        ],
                     ]
                 );
-            
-            $result = $stream->getBody()->getContents();
-            return new Label((string) $result);
 
-        } catch (Exception $e) {      
+            $result = $stream->getBody()->getContents();
+
+            return new Label((string) $result);
+        } catch (Exception $e) {
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             $label = new Label(null);
             ResponseHelper::pushErrorsToResponse($label, [$excaption]);
+
             return $label;
         }
     }

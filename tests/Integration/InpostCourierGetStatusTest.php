@@ -2,13 +2,13 @@
 
 namespace Sylapi\Courier\Inpost\Tests;
 
-use Throwable;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Contracts\Status;
 use Sylapi\Courier\Enums\StatusType;
 use Sylapi\Courier\Exceptions\TransportException;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Inpost\InpostCourierGetStatuses;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
+use Throwable;
 
 class InpostCourierGetStatusTest extends PHPUnitTestCase
 {
@@ -16,13 +16,12 @@ class InpostCourierGetStatusTest extends PHPUnitTestCase
 
     public function testGetStatusSuccess()
     {
-
         $sessionMock = $this->getSessionMock([
             [
-                'code' => 200,
+                'code'   => 200,
                 'header' => [],
-                'body' => file_get_contents(__DIR__.'/Mock/InpostCourierGetStatusByShipmentIdSuccess.json') 
-            ]
+                'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierGetStatusByShipmentIdSuccess.json'),
+            ],
         ]);
 
         $inpostCourierGetStatuses = new InpostCourierGetStatuses($sessionMock);
@@ -36,10 +35,10 @@ class InpostCourierGetStatusTest extends PHPUnitTestCase
     {
         $sessionMock = $this->getSessionMock([
             [
-                'code' => 404,
+                'code'   => 404,
                 'header' => [],
-                'body' => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json')
-            ]
+                'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json'),
+            ],
         ]);
 
         $inpostCourierGetStatuses = new InpostCourierGetStatuses($sessionMock);

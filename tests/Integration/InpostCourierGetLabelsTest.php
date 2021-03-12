@@ -2,13 +2,12 @@
 
 namespace Sylapi\Courier\Inpost\Tests;
 
-use Throwable;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Contracts\Label;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Inpost\InpostCourierGetLabels;
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Inpost\InpostCourierGetStatuses;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
+use Throwable;
 
 class InpostCourierGetLabelsTest extends PHPUnitTestCase
 {
@@ -18,10 +17,10 @@ class InpostCourierGetLabelsTest extends PHPUnitTestCase
     {
         $sessionMock = $this->getSessionMock([
             [
-                'code' => 200,
+                'code'   => 200,
                 'header' => [],
-                'body' => file_get_contents(__DIR__.'/Mock/InpostCourierGetLabelSuccess.json') 
-            ]
+                'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierGetLabelSuccess.json'),
+            ],
         ]);
 
         $inpostCourierGetLabels = new InpostCourierGetLabels($sessionMock);
@@ -34,10 +33,10 @@ class InpostCourierGetLabelsTest extends PHPUnitTestCase
     {
         $sessionMock = $this->getSessionMock([
             [
-                'code' => 404,
+                'code'   => 404,
                 'header' => [],
-                'body' => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json')
-            ]
+                'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json'),
+            ],
         ]);
 
         $inpostCourierGetLabels = new InpostCourierGetLabels($sessionMock);

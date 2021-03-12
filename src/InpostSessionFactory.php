@@ -13,6 +13,7 @@ class InpostSessionFactory
     // const API_LIVE = 'https://api-shipx-pl.easypack24.net';
     const API_LIVE = 'https://live.inpost.test';
     const API_SANDBOX = 'https://sandbox-api-shipx-pl.easypack24.net';
+
     public function session(InpostParameters $parameters): InpostSession
     {
         $this->parameters = $parameters;
