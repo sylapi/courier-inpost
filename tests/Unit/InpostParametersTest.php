@@ -2,17 +2,16 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Unit;
 
-use Sylapi\Courier\Inpost\InpostServices;
-use Sylapi\Courier\Inpost\InpostParameters;
-use Sylapi\Courier\Exceptions\ValidateException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Exceptions\ValidateException;
+use Sylapi\Courier\Inpost\InpostParameters;
 
 class InpostParametersTest extends PHPUnitTestCase
 {
     public function testHasProperty()
     {
         $parameters = InpostParameters::create([
-            'test' => 1
+            'test' => 1,
         ]);
 
         $this->assertTrue($parameters->hasProperty('test'));
@@ -21,7 +20,7 @@ class InpostParametersTest extends PHPUnitTestCase
     public function testNotHasProperty()
     {
         $parameters = InpostParameters::create([
-            'test1' => 2
+            'test1' => 2,
         ]);
 
         $this->assertFalse($parameters->hasProperty('test'));
@@ -31,7 +30,7 @@ class InpostParametersTest extends PHPUnitTestCase
     {
         $value = 'label_value';
         $parameters = InpostParameters::create([
-            'labelType' => $value
+            'labelType' => $value,
         ]);
 
         $this->assertEquals($value, $parameters->getLabelType());
@@ -40,17 +39,17 @@ class InpostParametersTest extends PHPUnitTestCase
     public function testNotHasPropertyLabelType()
     {
         $parameters = InpostParameters::create([
-            'test1' => 2
+            'test1' => 2,
         ]);
 
         $this->assertEquals(InpostParameters::DEFAULT_LABEL_TYPE, $parameters->getLabelType());
-    }    
+    }
 
     public function testHasPropertyService()
     {
         $value = 'service_value';
         $parameters = InpostParameters::create([
-            'service' => $value
+            'service' => $value,
         ]);
 
         $this->assertEquals($value, $parameters->getService());
@@ -60,7 +59,7 @@ class InpostParametersTest extends PHPUnitTestCase
     {
         $this->expectException(ValidateException::class);
         $parameters = InpostParameters::create([
-            'test1' => 2
+            'test1' => 2,
         ]);
         $parameters->getDispatchPoint();
     }
@@ -69,48 +68,47 @@ class InpostParametersTest extends PHPUnitTestCase
     {
         $value = 123456;
         $parameters = InpostParameters::create([
-            'dispatch_point_id' => $value
+            'dispatch_point_id' => $value,
         ]);
 
-        $this->assertEquals([ 'dispatch_point_id' => $value ], $parameters->getDispatchPoint());
+        $this->assertEquals(['dispatch_point_id' => $value], $parameters->getDispatchPoint());
     }
 
     public function testHasPropertyDispatchPoint()
     {
         $value = [
-            'street' => 'Street',
+            'street'          => 'Street',
             'building_number' => '2',
-            'city' => 'City',
-            'post_code' => '11-222',
-            'country_code' => 'PL',
-            'service' => 'inpost_courier_standard',
+            'city'            => 'City',
+            'post_code'       => '11-222',
+            'country_code'    => 'PL',
+            'service'         => 'inpost_courier_standard',
         ];
-        
+
         $parameters = InpostParameters::create([
-            'dispatch_point' => $value
+            'dispatch_point' => $value,
         ]);
 
-        $this->assertEquals([ 'address' => $value ], $parameters->getDispatchPoint());
+        $this->assertEquals(['address' => $value], $parameters->getDispatchPoint());
     }
 
     public function testHasBothDispatchPointProperties()
     {
         $valueDispatchPointId = 123456;
         $valueDispatchPoint = [
-            'street' => 'Street',
+            'street'          => 'Street',
             'building_number' => '2',
-            'city' => 'City',
-            'post_code' => '11-222',
-            'country_code' => 'PL',
-            'service' => 'inpost_courier_standard',
+            'city'            => 'City',
+            'post_code'       => '11-222',
+            'country_code'    => 'PL',
+            'service'         => 'inpost_courier_standard',
         ];
-        
+
         $parameters = InpostParameters::create([
-            'dispatch_point' => $valueDispatchPoint,
-            'dispatch_point_id' => $valueDispatchPointId
+            'dispatch_point'    => $valueDispatchPoint,
+            'dispatch_point_id' => $valueDispatchPointId,
         ]);
 
-        $this->assertEquals([ 'dispatch_point_id' => $valueDispatchPointId ], $parameters->getDispatchPoint());
+        $this->assertEquals(['dispatch_point_id' => $valueDispatchPointId], $parameters->getDispatchPoint());
     }
-
 }

@@ -17,10 +17,10 @@ use Sylapi\Courier\Inpost\InpostShipment;
 class InpostCourierApiFactoryTest extends PHPUnitTestCase
 {
     private $parameters = [
-        'token'           => 'token',
+        'token'            => 'token',
         'organization_id'  => 'password',
-        'sandbox'         => true,
-        'labelType'       => 'normal',
+        'sandbox'          => true,
+        'labelType'        => 'normal',
     ];
 
     public function testInpostSessionFactory()

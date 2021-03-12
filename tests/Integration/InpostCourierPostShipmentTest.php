@@ -2,13 +2,13 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Integration;
 
-use Throwable;
-use Sylapi\Courier\Contracts\Response;
-use Sylapi\Courier\Inpost\InpostBooking;
-use Sylapi\Courier\Exceptions\TransportException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Contracts\Response;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Inpost\InpostBooking;
 use Sylapi\Courier\Inpost\InpostCourierPostShipment;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
+use Throwable;
 
 class InpostCourierPostShipmentTest extends PHPUnitTestCase
 {
@@ -27,10 +27,10 @@ class InpostCourierPostShipmentTest extends PHPUnitTestCase
     {
         $sessionMock = $this->getSessionMock([
             [
-                'code' => 201,
+                'code'   => 201,
                 'header' => [],
-                'body' => file_get_contents(__DIR__.'/Mock/InpostCourierPostShipmentSuccess.json')
-            ]
+                'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierPostShipmentSuccess.json'),
+            ],
         ]);
 
         $inpostCourierCreateShipment = new InpostCourierPostShipment($sessionMock);
@@ -50,10 +50,10 @@ class InpostCourierPostShipmentTest extends PHPUnitTestCase
     {
         $sessionMock = $this->getSessionMock([
             [
-                'code' => 404,
+                'code'   => 404,
                 'header' => [],
-                'body' => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json')
-            ]
+                'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json'),
+            ],
         ]);
 
         $inpostCourierCreateShipment = new InpostCourierPostShipment($sessionMock);

@@ -41,11 +41,11 @@ class InpostSession
     private function initializeSession(): void
     {
         $this->client = new Client([
-             'base_uri' => $this->parameters->apiUrl,
-             'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer '.$this->token()
-            ]
+            'base_uri' => $this->parameters->apiUrl,
+            'headers'  => [
+                'Content-Type'  => 'application/json',
+                'Authorization' => 'Bearer '.$this->token(),
+            ],
         ]);
     }
 }

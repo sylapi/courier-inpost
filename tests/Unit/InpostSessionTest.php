@@ -2,10 +2,10 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Unit;
 
+use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Inpost\InpostParameters;
 use Sylapi\Courier\Inpost\InpostSession;
-use GuzzleHttp\Client;
 
 class InpostSessionTest extends PHPUnitTestCase
 {

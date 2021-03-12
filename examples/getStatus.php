@@ -3,22 +3,22 @@
 use Sylapi\Courier\CourierFactory;
 
 $courier = CourierFactory::create('Inpost', [
-    'token'     => 'mytoken',
+    'token'            => 'mytoken',
     'organization_id'  => 'myorganizationid',
-    'sandbox'   => true,
-    'labelType' => 'normal', //normal lub A6
+    'sandbox'          => true,
+    'labelType'        => 'normal', //normal lub A6
     // 'dispatch_point_id' => '1234567890', // lub Adres (dispatch_point)
     'dispatch_point' => [
-        'street' => 'Street',
+        'street'          => 'Street',
         'building_number' => '2',
-        'city' => 'City',
-        'post_code' => '11-222',
-        'country_code' => 'PL',
-        'service' => InpostServices::COURIER_STANDARD,
+        'city'            => 'City',
+        'post_code'       => '11-222',
+        'country_code'    => 'PL',
+        'service'         => InpostServices::COURIER_STANDARD,
         // lub paczkomat
         // 'service' => InpostServices::LOCKER_STANDARD,
         // 'target_point' => 'KRA010'
-    ]
+    ],
 ]);
 
 /**

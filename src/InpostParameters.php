@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
-use Sylapi\Courier\Exceptions\ValidateException;
+
 use ArrayObject;
+use Sylapi\Courier\Exceptions\ValidateException;
 
 class InpostParameters extends ArrayObject
 {
@@ -29,15 +30,15 @@ class InpostParameters extends ArrayObject
 
     public function getDispatchPoint()
     {
-        if($this->hasProperty('dispatch_point_id')) {
+        if ($this->hasProperty('dispatch_point_id')) {
             return [
-                'dispatch_point_id' => $this->dispatch_point_id
+                'dispatch_point_id' => $this->dispatch_point_id,
             ];
-        } else if ( $this->hasProperty('dispatch_point') ) {
+        } elseif ($this->hasProperty('dispatch_point')) {
             return [
-                'address' => $this->dispatch_point
+                'address' => $this->dispatch_point,
             ];
-        } else { 
+        } else {
             throw new ValidateException('Dispatch point is not defined');
         }
     }
