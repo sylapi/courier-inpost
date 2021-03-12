@@ -14,5 +14,3 @@ class InpostCourierMakeParcel implements CourierMakeParcel
         return new InpostParcel();
     }
 }
-
-

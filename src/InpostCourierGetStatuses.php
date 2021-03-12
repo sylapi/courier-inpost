@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use stdClass;
+use Sylapi\Courier\Contracts\CourierGetStatuses;
+use Sylapi\Courier\Contracts\Status as StatusContract;
 use Sylapi\Courier\Entities\Status;
 use Sylapi\Courier\Enums\StatusType;
-use Sylapi\Courier\Helpers\ResponseHelper;
-use Sylapi\Courier\Contracts\CourierGetStatuses;
-use Sylapi\Courier\Inpost\InpostStatusTransformer;
 use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Contracts\Status as StatusContract;
+use Sylapi\Courier\Helpers\ResponseHelper;
 
 class InpostCourierGetStatuses implements CourierGetStatuses
 {
@@ -34,6 +32,7 @@ class InpostCourierGetStatuses implements CourierGetStatuses
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             $status = new Status(StatusType::APP_RESPONSE_ERROR);
             ResponseHelper::pushErrorsToResponse($status, [$excaption]);
+
             return $status;
         }
     }
@@ -53,17 +52,15 @@ class InpostCourierGetStatuses implements CourierGetStatuses
         $stream = $this->session
             ->client()
             ->get($this->getPathByShipmentId([
-                    ':shipment_id' => $shipmentId,
-                    ':organization_id' => $this->session->parameters()->organization_id
-                ]));
-    
-        
+                ':shipment_id'     => $shipmentId,
+                ':organization_id' => $this->session->parameters()->organization_id,
+            ]));
+
         $result = json_decode($stream->getBody()->getContents());
 
         $statusName = (isset($result->items[0]->status))
             ? new InpostStatusTransformer((string) $result->items[0]->status)
             : StatusType::APP_RESPONSE_ERROR;
-                
 
         return new Status((string) $statusName);
     }
@@ -73,13 +70,13 @@ class InpostCourierGetStatuses implements CourierGetStatuses
         $stream = $this->session
         ->client()
         ->get($this->getPathByTrackingId($shipmentId));
-    
+
         $result = json_decode($stream->getBody()->getContents());
 
         if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception('Json data is incorrect');
         }
-        
+
         return new Status((string) new InpostStatusTransformer((string) $result->status));
     }
 }

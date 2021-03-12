@@ -18,7 +18,7 @@ trait InpostSessionTrait
         foreach ($responses as $response) {
             $responseMocks[] = new Response((int) $response['code'], $response['header'], $response['body']);
         }
-        
+
         $mock = new MockHandler($responseMocks);
 
         $handlerStack = HandlerStack::create($mock);
@@ -34,7 +34,7 @@ trait InpostSessionTrait
         $sessionMock->method('client')
             ->willReturn($client);
         $sessionMock->method('parameters')
-            ->willReturn($parametersMock);            
+            ->willReturn($parametersMock);
 
         return $sessionMock;
     }

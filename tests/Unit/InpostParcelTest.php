@@ -9,25 +9,25 @@ class InpostParcelTest extends PHPUnitTestCase
 {
     public function testWidthConvertingCmToMm()
     {
-        $value = rand(1,2000);
+        $value = rand(1, 2000);
         $parcel = new InpostParcel();
         $parcel->setWidth($value);
-        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT),  $parcel->getWidth());
+        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT), $parcel->getWidth());
     }
 
     public function testHeighthConvertingCmToMm()
     {
-        $value = rand(1,2000);
+        $value = rand(1, 2000);
         $parcel = new InpostParcel();
         $parcel->setHeight($value);
-        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT),  $parcel->getHeight());
+        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT), $parcel->getHeight());
     }
 
     public function testLengthConvertingCmToMm()
     {
-        $value = rand(1,2000);
+        $value = rand(1, 2000);
         $parcel = new InpostParcel();
         $parcel->setLength($value);
-        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT),  $parcel->getLength());
+        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT), $parcel->getLength());
     }
 }
