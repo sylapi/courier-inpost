@@ -9,9 +9,7 @@ class InpostSessionFactory
     private $sessions = [];
     private $parameters;
 
-    //These constants can be extracted into injected configuration
-    // const API_LIVE = 'https://api-shipx-pl.easypack24.net';
-    const API_LIVE = 'https://live.inpost.test';
+    const API_LIVE = 'https://api-shipx-pl.easypack24.net';
     const API_SANDBOX = 'https://sandbox-api-shipx-pl.easypack24.net';
 
     public function session(InpostParameters $parameters): InpostSession
