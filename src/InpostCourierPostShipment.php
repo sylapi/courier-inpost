@@ -43,7 +43,6 @@ class InpostCourierPostShipment implements CourierPostShipment
                 );
 
             $result = json_decode($stream->getBody()->getContents());
-
             if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception('Json data is incorrect');
             }

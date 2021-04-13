@@ -22,7 +22,15 @@
             'service' => InpostServices::COURIER_STANDARD,
             // lub paczkomat
             // 'service' => InpostServices::LOCKER_STANDARD,
-            // 'target_point' => 'KRA010'
+            // 'target_point' => 'KRA010'            
+        ],
+        'cod' => [
+            'amount' => 25.50,
+            'currency' => 'PLN'
+        ],
+        'insurance' => [
+            'amount' => 25.50,
+            'currency' => 'PLN'
         ]
     ]);
 ```
@@ -112,7 +120,7 @@
      * Init Courier
      */
     try {
-        $response = $courier->getStatus('123456');
+        $response = $courier->getStatus('1234567890'); // Zewnetrzny idetyfikator sledzenia przesylki
         if($response->hasErrors()) {
             var_dump($response->getFirstError()->getMessage());
         } else {
@@ -131,7 +139,7 @@
      * Init Courier
      */
     try {
-        $response = $courier->getLabel('123456');
+        $response = $courier->getLabel('123456'); // Zewnetrzny idetyfikator zamowienia
         if($response->hasErrors()) {
             var_dump($response->getFirstError()->getMessage());
         } else {
