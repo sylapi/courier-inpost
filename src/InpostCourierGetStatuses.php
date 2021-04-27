@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use Sylapi\Courier\Contracts\CourierGetStatuses;
-use Sylapi\Courier\Contracts\Status as StatusContract;
 use Sylapi\Courier\Entities\Status;
 use Sylapi\Courier\Enums\StatusType;
-use Sylapi\Courier\Exceptions\TransportException;
+use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Helpers\ResponseHelper;
+use Sylapi\Courier\Contracts\CourierGetStatuses;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Inpost\InpostResponseErrorHelper;
+use Sylapi\Courier\Contracts\Status as StatusContract;
 
 class InpostCourierGetStatuses implements CourierGetStatuses
 {
@@ -28,6 +30,11 @@ class InpostCourierGetStatuses implements CourierGetStatuses
     {
         try {
             return $this->getStatusByShipmentId($shipmentId);
+        } catch (ClientException $e) {
+            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
+            $status = new Status(StatusType::APP_RESPONSE_ERROR);
+            ResponseHelper::pushErrorsToResponse($status, [$excaption]);
+            return $status;                        
         } catch (Exception $e) {
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             $status = new Status(StatusType::APP_RESPONSE_ERROR);

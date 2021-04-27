@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
-use Sylapi\Courier\Courier;
+use Sylapi\Courier\Inpost\InpostCourier as Courier;
 
 class InpostCourierApiFactory
 {

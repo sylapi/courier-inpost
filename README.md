@@ -22,7 +22,7 @@
             'service' => InpostServices::COURIER_STANDARD,
             // lub paczkomat
             // 'service' => InpostServices::LOCKER_STANDARD,
-            // 'target_point' => 'KRA010'            
+            // 'target_point' => 'KRA010'
         ],
         'cod' => [
             'amount' => 25.50,
@@ -149,6 +149,10 @@
         var_dump($e->getMessage());
     }
 ```
+
+## Geowidget
+
+Implementacja Geowidget jest dostępna pod adresem: https://docs.inpost24.com/display/PL/Geowidget
 
 ## Komendy
 
