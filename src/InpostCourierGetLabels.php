@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use Sylapi\Courier\Entities\Label;
 use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Helpers\ResponseHelper;
 use Sylapi\Courier\Contracts\CourierGetLabels;
-use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Contracts\Label as LabelContract;
-use Sylapi\Courier\Inpost\InpostResponseErrorHelper;
+use Sylapi\Courier\Entities\Label;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Helpers\ResponseHelper;
 
 class InpostCourierGetLabels implements CourierGetLabels
 {
@@ -41,16 +40,17 @@ class InpostCourierGetLabels implements CourierGetLabels
             $result = $stream->getBody()->getContents();
 
             return new Label((string) $result);
-
         } catch (ClientException $e) {
             $excaption = new TransportException(InpostResponseErrorHelper::message($e));
             $label = new Label(null);
             ResponseHelper::pushErrorsToResponse($label, [$excaption]);
-            return $label;                                    
+
+            return $label;
         } catch (Exception $e) {
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             $label = new Label(null);
             ResponseHelper::pushErrorsToResponse($label, [$excaption]);
+
             return $label;
         }
     }

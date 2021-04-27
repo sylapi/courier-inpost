@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
-use Sylapi\Courier\Courier;
 use Sylapi\Courier\Contracts\CourierCreateShipment;
 use Sylapi\Courier\Contracts\CourierGetLabels;
 use Sylapi\Courier\Contracts\CourierGetStatuses;
@@ -15,6 +14,7 @@ use Sylapi\Courier\Contracts\CourierMakeSender;
 use Sylapi\Courier\Contracts\CourierMakeShipment;
 use Sylapi\Courier\Contracts\CourierPostShipment;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
+use Sylapi\Courier\Courier;
 
 class InpostCourier extends Courier
 {
