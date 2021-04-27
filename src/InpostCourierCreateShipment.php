@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use Sylapi\Courier\Entities\Response;
-use Sylapi\Courier\Contracts\Shipment;
 use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Helpers\ResponseHelper;
-use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Contracts\CourierCreateShipment;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
-use Sylapi\Courier\Inpost\InpostResponseErrorHelper;
+use Sylapi\Courier\Contracts\Shipment;
+use Sylapi\Courier\Entities\Response;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Helpers\ResponseHelper;
 
 class InpostCourierCreateShipment implements CourierCreateShipment
 {
@@ -29,6 +28,7 @@ class InpostCourierCreateShipment implements CourierCreateShipment
     {
         $response = new Response();
         $response->shipmentId = $shipmentId;
+
         try {
             $stream = $this->session
             ->client()
@@ -37,8 +37,8 @@ class InpostCourierCreateShipment implements CourierCreateShipment
                 $this->getPath($this->session->parameters()->organization_id ?? null),
                 [
                     'form_params' => [
-                        'id' => $shipmentId
-                    ]
+                        'id' => $shipmentId,
+                    ],
                 ]
             );
 
@@ -48,30 +48,29 @@ class InpostCourierCreateShipment implements CourierCreateShipment
                 throw new Exception('Json data response is incorrect');
             }
 
-            if(!(
-                isset($result->items) 
-                    && is_array($result->items) 
+            if (!(
+                isset($result->items)
+                    && is_array($result->items)
                     && count($result->items) === 1
                     && isset($result->items[0]->tracking_number)
-                )
-
             )
-            {
+
+            ) {
                 throw new Exception('Shipment (id: '.$shipmentId.') does not exist.');
             }
-            
-            $response->trackingId = $result->items[0]->tracking_number;
 
+            $response->trackingId = $result->items[0]->tracking_number;
         } catch (ClientException $e) {
             $excaption = new TransportException(InpostResponseErrorHelper::message($e));
             ResponseHelper::pushErrorsToResponse($response, [$excaption]);
-            return $response;            
+
+            return $response;
         } catch (Exception $e) {
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             ResponseHelper::pushErrorsToResponse($response, [$excaption]);
         }
 
-        return $response;        
+        return $response;
     }
 
     public function createShipment(Shipment $shipment): ResponseContract
@@ -95,11 +94,11 @@ class InpostCourierCreateShipment implements CourierCreateShipment
             }
             $response->shipmentId = $result->id;
             $response->trackingId = null;
-
         } catch (ClientException $e) {
             $excaption = new TransportException(InpostResponseErrorHelper::message($e));
             ResponseHelper::pushErrorsToResponse($response, [$excaption]);
-            return $response;            
+
+            return $response;
         } catch (Exception $e) {
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             ResponseHelper::pushErrorsToResponse($response, [$excaption]);
@@ -107,7 +106,6 @@ class InpostCourierCreateShipment implements CourierCreateShipment
 
         return $response;
     }
-
 
     private function getShipment(Shipment $shipment): array
     {

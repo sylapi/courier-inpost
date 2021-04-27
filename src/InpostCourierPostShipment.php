@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use Sylapi\Courier\Contracts\Booking;
-use Sylapi\Courier\Entities\Response;
 use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Helpers\ResponseHelper;
+use Sylapi\Courier\Contracts\Booking;
 use Sylapi\Courier\Contracts\CourierPostShipment;
-use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Inpost\InpostResponseErrorHelper;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
+use Sylapi\Courier\Entities\Response;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Helpers\ResponseHelper;
 
 class InpostCourierPostShipment implements CourierPostShipment
 {
@@ -45,7 +44,7 @@ class InpostCourierPostShipment implements CourierPostShipment
                 );
 
             $result = json_decode($stream->getBody()->getContents());
-        
+
             if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception('Json data is incorrect');
             }
@@ -56,7 +55,8 @@ class InpostCourierPostShipment implements CourierPostShipment
         } catch (ClientException $e) {
             $excaption = new TransportException(InpostResponseErrorHelper::message($e));
             ResponseHelper::pushErrorsToResponse($response, [$excaption]);
-            return $response;            
+
+            return $response;
         } catch (Exception $e) {
             $excaption = new TransportException($e->getMessage(), $e->getCode());
             ResponseHelper::pushErrorsToResponse($response, [$excaption]);

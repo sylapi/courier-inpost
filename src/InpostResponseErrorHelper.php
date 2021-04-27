@@ -8,7 +8,6 @@ use GuzzleHttp\Exception\ClientException;
 
 class InpostResponseErrorHelper
 {
-
     const DEFAULT_MESSAGE = 'Something went wrong!';
 
     public static function message(ClientException $e): string
@@ -17,15 +16,15 @@ class InpostResponseErrorHelper
 
         $content = json_decode($e->getResponse()->getBody()->getContents());
 
-        if(isset($content->details)) {
-            $message = json_encode($content->details);    
+        if (isset($content->details)) {
+            $message = json_encode($content->details);
         }
-        
-        if($message === null 
-            && isset($content->error) 
+
+        if ($message === null
+            && isset($content->error)
             && isset($content->message)
         ) {
-            $message = $content->error. " : ". $content->message;
+            $message = $content->error.' : '.$content->message;
         }
 
         $message = $message ?? self::DEFAULT_MESSAGE;
