@@ -50,4 +50,9 @@ class InpostCourier extends Courier
     {
         return $this->createShipment->getTrackingId($shipmentId);
     }
+
+    public function getShipmentId(string $trackingId): ResponseContract
+    {
+        return $this->createShipment->getShipmentId($trackingId);
+    }
 }

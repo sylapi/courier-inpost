@@ -24,6 +24,57 @@ class InpostCourierCreateShipment implements CourierCreateShipment
         $this->session = $session;
     }
 
+    public function getShipmentId(string $trackingId): ResponseContract
+    {
+        $response = new Response();
+        $response->trackingId = $trackingId;
+
+        try {
+            $stream = $this->session
+            ->client()
+            ->request(
+                'GET',
+                $this->getPath($this->session->parameters()->organization_id ?? null),
+                [
+                    'form_params' => [
+                        'tracking_number' => $trackingId,
+                    ],
+                ]
+            );
+
+            $result = json_decode($stream->getBody()->getContents());
+
+            if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Json data response is incorrect');
+            }
+
+            if (!(
+                isset($result->items)
+                    && is_array($result->items)
+                    && count($result->items) === 1
+                    && isset($result->items[0]->id)
+                    && isset($result->items[0]->tracking_number)
+                    && (string) $result->items[0]->tracking_number === (string) $trackingId
+            )
+            ) {
+                throw new Exception('Shipment (tracking_id: '.$trackingId.') does not exist.');
+            }
+
+            $response->shipmentId = $result->items[0]->id;
+        } catch (ClientException $e) {
+            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
+            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+
+            return $response;
+        } catch (Exception $e) {
+            $excaption = new TransportException($e->getMessage(), $e->getCode());
+            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+        }
+
+        return $response;
+    }
+
+
     public function getTrackingId(string $shipmentId): ResponseContract
     {
         $response = new Response();
@@ -53,6 +104,8 @@ class InpostCourierCreateShipment implements CourierCreateShipment
                     && is_array($result->items)
                     && count($result->items) === 1
                     && isset($result->items[0]->tracking_number)
+                    && isset($result->items[0]->id)
+                    && (string) $result->items[0]->id === (string) $shipmentId                    
             )
 
             ) {
