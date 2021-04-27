@@ -74,7 +74,6 @@ class InpostCourierCreateShipment implements CourierCreateShipment
         return $response;
     }
 
-
     public function getTrackingId(string $shipmentId): ResponseContract
     {
         $response = new Response();
@@ -105,7 +104,7 @@ class InpostCourierCreateShipment implements CourierCreateShipment
                     && count($result->items) === 1
                     && isset($result->items[0]->tracking_number)
                     && isset($result->items[0]->id)
-                    && (string) $result->items[0]->id === (string) $shipmentId                    
+                    && (string) $result->items[0]->id === (string) $shipmentId
             )
 
             ) {
