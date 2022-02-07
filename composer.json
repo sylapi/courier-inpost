@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=7.4.0",
-        "sylapi/courier": "2.0.0",
+        "sylapi/courier": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "rakit/validation": "^1.4"
     },
