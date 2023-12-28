@@ -15,6 +15,7 @@ use Sylapi\Courier\Contracts\CourierMakeShipment;
 use Sylapi\Courier\Contracts\CourierPostShipment;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Courier as CourierBase;
+use Sylapi\Courier\Inpost\CourierCreateShipment as InpostCourierCreateShipment;
 
 class Courier extends CourierBase
 {
@@ -47,6 +48,9 @@ class Courier extends CourierBase
             $makeLabelType
         );
 
+        /**
+         * @var InpostCourierCreateShipment $createShipment
+         */
         $this->createShipment = $createShipment;
     }
 

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
-use Sylapi\Courier\Contracts\CourierMakeReceiver;
-use Sylapi\Courier\Contracts\Receiver;
+use Sylapi\Courier\Inpost\Entities\Receiver;
+use Sylapi\Courier\Contracts\Receiver as ReceiverContract;
+use Sylapi\Courier\Contracts\CourierMakeReceiver as CourierMakeReceiverContract;
 
-class CourierMakeReceiver implements CourierMakeReceiver
+class CourierMakeReceiver implements CourierMakeReceiverContract
 {
-    public function makeReceiver(): Receiver
+    public function makeReceiver(): ReceiverContract
     {
         return new Receiver();
     }

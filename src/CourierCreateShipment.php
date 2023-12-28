@@ -6,20 +6,20 @@ namespace Sylapi\Courier\Inpost;
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Contracts\CourierCreateShipment;
+use Sylapi\Courier\Contracts\CourierCreateShipment as CourierCreateShipmentContract;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Contracts\Shipment;
 use Sylapi\Courier\Entities\Response;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Helpers\ResponseHelper;
 
-class CourierCreateShipment implements CourierCreateShipment
+class CourierCreateShipment implements CourierCreateShipmentContract
 {
     private $session;
 
     const API_PATH = '/v1/organizations/:organization_id/shipments';
 
-    public function __construct(InpostSession $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }

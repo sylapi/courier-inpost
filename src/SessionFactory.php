@@ -12,7 +12,7 @@ class SessionFactory
     const API_LIVE = 'https://api-shipx-pl.easypack24.net';
     const API_SANDBOX = 'https://sandbox-api-shipx-pl.easypack24.net';
 
-    public function session(InpostParameters $parameters): InpostSession
+    public function session(Parameters $parameters): Session
     {
         $this->parameters = $parameters;
         $this->parameters->apiUrl = ($this->parameters->sandbox) ? self::API_SANDBOX : self::API_LIVE;

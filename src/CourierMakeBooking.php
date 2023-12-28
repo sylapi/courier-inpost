@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Sylapi\Courier\Contracts\Booking;
-use Sylapi\Courier\Contracts\CourierMakeBooking;
+use Sylapi\Courier\Contracts\Booking as BookingContract;
+use Sylapi\Courier\Contracts\CourierMakeBooking as CourierMakeBookingContract;
 
-class CourierMakeBooking implements CourierMakeBooking
+class CourierMakeBooking implements CourierMakeBookingContract
 {
-    public function makeBooking(): Booking
+    public function makeBooking(): BookingContract
     {
         return new Booking();
     }
 }
+

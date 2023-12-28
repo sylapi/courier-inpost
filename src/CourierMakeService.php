@@ -14,7 +14,7 @@ class CourierMakeService implements CourierMakeServiceContract
     public function makeService(?string $serviceType = null): ServiceContract
     {
         if($serviceType) {
-            return ServiceFactory::create('Olza', $serviceType);
+            return ServiceFactory::create('Inpost', $serviceType);
         }
         
         return new Service();
