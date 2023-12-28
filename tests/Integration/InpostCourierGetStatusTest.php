@@ -10,7 +10,7 @@ use Sylapi\Courier\Inpost\InpostCourierGetStatuses;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
 
-class InpostCourierGetStatusTest extends PHPUnitTestCase
+class CourierGetStatusTest extends PHPUnitTestCase
 {
     use InpostSessionTrait;
 
@@ -24,7 +24,7 @@ class InpostCourierGetStatusTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierGetStatuses = new InpostCourierGetStatuses($sessionMock);
+        $inpostCourierGetStatuses = new CourierGetStatuses($sessionMock);
 
         $response = $inpostCourierGetStatuses->getStatus('123');
         // $this->assertInstanceOf(Status::class, $response);
@@ -41,7 +41,7 @@ class InpostCourierGetStatusTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierGetStatuses = new InpostCourierGetStatuses($sessionMock);
+        $inpostCourierGetStatuses = new CourierGetStatuses($sessionMock);
         $response = $inpostCourierGetStatuses->getStatus('123');
         $this->assertInstanceOf(Status::class, $response);
         $this->assertEquals(StatusType::APP_RESPONSE_ERROR, (string) $response);

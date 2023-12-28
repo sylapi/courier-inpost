@@ -12,7 +12,7 @@ use Sylapi\Courier\Entities\Label;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Helpers\ResponseHelper;
 
-class InpostCourierGetLabels implements CourierGetLabels
+class CourierGetLabels implements CourierGetLabels
 {
     const API_PATH = '/v1/shipments/:shipment_id/label';
 

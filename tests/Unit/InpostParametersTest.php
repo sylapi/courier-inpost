@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Exceptions\ValidateException;
 use Sylapi\Courier\Inpost\InpostParameters;
 
-class InpostParametersTest extends PHPUnitTestCase
+class ParametersTest extends PHPUnitTestCase
 {
     public function testHasProperty()
     {

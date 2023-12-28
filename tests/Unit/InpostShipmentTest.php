@@ -8,12 +8,12 @@ use Sylapi\Courier\Inpost\InpostReceiver;
 use Sylapi\Courier\Inpost\InpostSender;
 use Sylapi\Courier\Inpost\InpostShipment;
 
-class InpostShipmentTest extends PHPUnitTestCase
+class ShipmentTest extends PHPUnitTestCase
 {
     public function testNumberOfPackagesIsAlwaysEqualTo1()
     {
-        $parcel = new InpostParcel();
-        $shipment = new InpostShipment();
+        $parcel = new Parcel();
+        $shipment = new Shipment();
         $shipment->setParcel($parcel);
         $shipment->setParcel($parcel);
 
@@ -22,11 +22,11 @@ class InpostShipmentTest extends PHPUnitTestCase
 
     public function testShipmentValidate()
     {
-        $receiver = new InpostReceiver();
-        $sender = new InpostSender();
-        $parcel = new InpostParcel();
+        $receiver = new Receiver();
+        $sender = new Sender();
+        $parcel = new Parcel();
 
-        $shipment = new InpostShipment();
+        $shipment = new Shipment();
         $shipment->setSender($sender)
             ->setReceiver($receiver)
             ->setParcel($parcel);

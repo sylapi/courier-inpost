@@ -7,7 +7,7 @@ namespace Sylapi\Courier\Inpost;
 use ArrayObject;
 use Sylapi\Courier\Exceptions\ValidateException;
 
-class InpostParameters extends ArrayObject
+class Parameters extends ArrayObject
 {
     const DEFAULT_LABEL_FORMAT = 'Pdf';
     const DEFAULT_LABEL_TYPE = 'normal';

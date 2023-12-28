@@ -10,7 +10,7 @@ use Sylapi\Courier\Inpost\InpostCourierPostShipment;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
 
-class InpostCourierPostShipmentTest extends PHPUnitTestCase
+class CourierPostShipmentTest extends PHPUnitTestCase
 {
     use InpostSessionTrait;
 
@@ -33,7 +33,7 @@ class InpostCourierPostShipmentTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierCreateShipment = new InpostCourierPostShipment($sessionMock);
+        $inpostCourierCreateShipment = new CourierPostShipment($sessionMock);
         $shipmentId = 1234567890;
         $booking = $this->getBookingMock($shipmentId);
         $response = $inpostCourierCreateShipment->postShipment($booking);
@@ -56,7 +56,7 @@ class InpostCourierPostShipmentTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierCreateShipment = new InpostCourierPostShipment($sessionMock);
+        $inpostCourierCreateShipment = new CourierPostShipment($sessionMock);
         $shipmentId = 1234567890;
         $booking = $this->getBookingMock($shipmentId);
         $response = $inpostCourierCreateShipment->postShipment($booking);

@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Inpost\InpostParameters;
 use Sylapi\Courier\Inpost\InpostSession;
 
-class InpostSessionTest extends PHPUnitTestCase
+class SessionTest extends PHPUnitTestCase
 {
     public function testInpostSessionParameters()
     {
-        $inpostSession = new InpostSession(InpostParameters::create([
+        $inpostSession = new Session(InpostParameters::create([
             'apiUrl'    => 'https://test.inpost.api',
             'token'     => 'asdef12345',
         ]));

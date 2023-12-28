@@ -9,7 +9,7 @@ use Sylapi\Courier\Inpost\InpostCourierGetLabels;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
 
-class InpostCourierGetLabelsTest extends PHPUnitTestCase
+class CourierGetLabelsTest extends PHPUnitTestCase
 {
     use InpostSessionTrait;
 
@@ -23,7 +23,7 @@ class InpostCourierGetLabelsTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierGetLabels = new InpostCourierGetLabels($sessionMock);
+        $inpostCourierGetLabels = new CourierGetLabels($sessionMock);
 
         $response = $inpostCourierGetLabels->getLabel('123');
         $this->assertEquals($response, 'JVBERi0xLjcKOCAwIG9iago8PCAv');
@@ -39,7 +39,7 @@ class InpostCourierGetLabelsTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierGetLabels = new InpostCourierGetLabels($sessionMock);
+        $inpostCourierGetLabels = new CourierGetLabels($sessionMock);
         $response = $inpostCourierGetLabels->getLabel('123');
         $this->assertInstanceOf(Label::class, $response);
         $this->assertEquals(null, (string) $response);

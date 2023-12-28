@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
-class InpostSessionFactory
+class SessionFactory
 {
     private $sessions = [];
     private $parameters;
@@ -19,6 +19,6 @@ class InpostSessionFactory
 
         $key = sha1($this->parameters->apiUrl.':'.$this->parameters->token);
 
-        return (isset($this->sessions[$key])) ? $this->sessions[$key] : ($this->sessions[$key] = new InpostSession($this->parameters));
+        return (isset($this->sessions[$key])) ? $this->sessions[$key] : ($this->sessions[$key] = new Session($this->parameters));
     }
 }

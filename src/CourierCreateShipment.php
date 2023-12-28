@@ -13,7 +13,7 @@ use Sylapi\Courier\Entities\Response;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Helpers\ResponseHelper;
 
-class InpostCourierCreateShipment implements CourierCreateShipment
+class CourierCreateShipment implements CourierCreateShipment
 {
     private $session;
 

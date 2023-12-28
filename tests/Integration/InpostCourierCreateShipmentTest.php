@@ -13,7 +13,7 @@ use Sylapi\Courier\Inpost\InpostShipment;
 use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
 
-class InpostCourierCreateShipmentTest extends PHPUnitTestCase
+class CourierCreateShipmentTest extends PHPUnitTestCase
 {
     use InpostSessionTrait;
 
@@ -45,7 +45,7 @@ class InpostCourierCreateShipmentTest extends PHPUnitTestCase
                 'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierCreateShipmentSuccess.json'),
             ],
         ]);
-        $inpostCourierCreateShipment = new InpostCourierCreateShipment($sessionMock);
+        $inpostCourierCreateShipment = new CourierCreateShipment($sessionMock);
         $response = $inpostCourierCreateShipment->createShipment($this->getShipmentMock());
 
         $this->assertInstanceOf(Response::class, $response);
@@ -64,7 +64,7 @@ class InpostCourierCreateShipmentTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierCreateShipment = new InpostCourierCreateShipment($sessionMock);
+        $inpostCourierCreateShipment = new CourierCreateShipment($sessionMock);
         $response = $inpostCourierCreateShipment->createShipment($this->getShipmentMock());
         $this->assertInstanceOf(Response::class, $response);
         $this->assertInstanceOf(Throwable::class, $response->getFirstError());

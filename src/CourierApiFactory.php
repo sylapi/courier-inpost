@@ -6,7 +6,7 @@ namespace Sylapi\Courier\Inpost;
 
 use Sylapi\Courier\Inpost\InpostCourier as Courier;
 
-class InpostCourierApiFactory
+class CourierApiFactory
 {
     private $inpostSessionFactory;
 
@@ -21,15 +21,15 @@ class InpostCourierApiFactory
                     ->session(InpostParameters::create($parameters));
 
         return new Courier(
-            new InpostCourierCreateShipment($session),
-            new InpostCourierPostShipment($session),
-            new InpostCourierGetLabels($session),
-            new InpostCourierGetStatuses($session),
-            new InpostCourierMakeShipment(),
-            new InpostCourierMakeParcel(),
-            new InpostCourierMakeReceiver(),
-            new InpostCourierMakeSender(),
-            new InpostCourierMakeBooking()
+            new CourierCreateShipment($session),
+            new CourierPostShipment($session),
+            new CourierGetLabels($session),
+            new CourierGetStatuses($session),
+            new CourierMakeShipment(),
+            new CourierMakeParcel(),
+            new CourierMakeReceiver(),
+            new CourierMakeSender(),
+            new CourierMakeBooking()
         );
     }
 }

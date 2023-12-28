@@ -14,22 +14,23 @@ use Sylapi\Courier\Contracts\CourierMakeSender;
 use Sylapi\Courier\Contracts\CourierMakeShipment;
 use Sylapi\Courier\Contracts\CourierPostShipment;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
-use Sylapi\Courier\Courier;
+use Sylapi\Courier\Courier as CourierBase;
 
-class InpostCourier extends Courier
+class Courier extends CourierBase
 {
-    private $createShipment;
-
     public function __construct(
-        CourierCreateShipment $createShipment,
-        CourierPostShipment $postShipment,
-        CourierGetLabels $getLabels,
-        CourierGetStatuses $getStatuses,
-        CourierMakeShipment $makeShipment,
-        CourierMakeParcel $makeParcel,
-        CourierMakeReceiver $makeReceiver,
-        CourierMakeSender $makeSender,
-        CourierMakeBooking $makeBooking
+        private CourierCreateShipment $createShipment,
+        private CourierPostShipment $postShipment,
+        private CourierGetLabels $getLabels,
+        private CourierGetStatuses $getStatuses,
+        private CourierMakeShipment $makeShipment,
+        private CourierMakeParcel $makeParcel,
+        private CourierMakeReceiver $makeReceiver,
+        private CourierMakeSender $makeSender,
+        private CourierMakeService $makeService,
+        private CourierMakeOptions $makeOptions,
+        private CourierMakeBooking $makeBooking,
+        private CourierMakeLabelType $makeLabelType
     ) {
         parent::__construct(
             $createShipment,
@@ -40,7 +41,10 @@ class InpostCourier extends Courier
             $makeParcel,
             $makeReceiver,
             $makeSender,
-            $makeBooking
+            $makeService,
+            $makeOptions,
+            $makeBooking,
+            $makeLabelType
         );
 
         $this->createShipment = $createShipment;

@@ -13,7 +13,7 @@ use Sylapi\Courier\Enums\StatusType;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Helpers\ResponseHelper;
 
-class InpostCourierGetStatuses implements CourierGetStatuses
+class CourierGetStatuses implements CourierGetStatuses
 {
     private $session;
 
@@ -66,7 +66,7 @@ class InpostCourierGetStatuses implements CourierGetStatuses
         $result = json_decode($stream->getBody()->getContents());
 
         $statusName = (isset($result->items[0]->status))
-            ? new InpostStatusTransformer((string) $result->items[0]->status)
+            ? new StatusTransformer((string) $result->items[0]->status)
             : StatusType::APP_RESPONSE_ERROR;
 
         return new Status((string) $statusName);
@@ -84,6 +84,6 @@ class InpostCourierGetStatuses implements CourierGetStatuses
             throw new Exception('Json data is incorrect');
         }
 
-        return new Status((string) new InpostStatusTransformer((string) $result->status));
+        return new Status((string) new StatusTransformer((string) $result->status));
     }
 }

@@ -13,7 +13,7 @@ use Sylapi\Courier\Entities\Response;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Helpers\ResponseHelper;
 
-class InpostCourierPostShipment implements CourierPostShipment
+class CourierPostShipment implements CourierPostShipment
 {
     const API_PATH = '/v1/organizations/:organization_id/dispatch_orders';
 

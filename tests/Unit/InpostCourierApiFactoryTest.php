@@ -14,7 +14,7 @@ use Sylapi\Courier\Inpost\InpostSession;
 use Sylapi\Courier\Inpost\InpostSessionFactory;
 use Sylapi\Courier\Inpost\InpostShipment;
 
-class InpostCourierApiFactoryTest extends PHPUnitTestCase
+class CourierApiFactoryTest extends PHPUnitTestCase
 {
     private $parameters = [
         'token'            => 'token',
@@ -25,7 +25,7 @@ class InpostCourierApiFactoryTest extends PHPUnitTestCase
 
     public function testInpostSessionFactory()
     {
-        $InpostSessionFactory = new InpostSessionFactory();
+        $InpostSessionFactory = new SessionFactory();
         $InpostSession = $InpostSessionFactory->session(
             InpostParameters::create($this->parameters)
         );
@@ -34,7 +34,7 @@ class InpostCourierApiFactoryTest extends PHPUnitTestCase
 
     public function testCourierFactoryCreate()
     {
-        $InpostCourierApiFactory = new InpostCourierApiFactory(new InpostSessionFactory());
+        $InpostCourierApiFactory = new CourierApiFactory(new SessionFactory());
         $courier = $InpostCourierApiFactory->create($this->parameters);
 
         $this->assertInstanceOf(Courier::class, $courier);

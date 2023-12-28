@@ -7,10 +7,10 @@ namespace Sylapi\Courier\Inpost;
 use Sylapi\Courier\Contracts\CourierMakeSender;
 use Sylapi\Courier\Contracts\Sender;
 
-class InpostCourierMakeSender implements CourierMakeSender
+class CourierMakeSender implements CourierMakeSender
 {
     public function makeSender(): Sender
     {
-        return new InpostSender();
+        return new Sender();
     }
 }

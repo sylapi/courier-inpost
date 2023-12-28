@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sylapi\Courier\Inpost;
+namespace Sylapi\Courier\Inpost\Entities;
 
 use Rakit\Validation\Validator;
-use Sylapi\Courier\Abstracts\Sender;
+use Sylapi\Courier\Abstracts\Sender as SenderAbstract;
 
-class InpostSender extends Sender
+class Sender extends SenderAbstract
 {
     public function validate(): bool
     {

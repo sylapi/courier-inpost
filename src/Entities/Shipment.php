@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sylapi\Courier\Inpost;
+namespace Sylapi\Courier\Inpost\Entities;
 
 use Rakit\Validation\Validator;
-use Sylapi\Courier\Abstracts\Shipment;
+use Sylapi\Courier\Abstracts\Shipment as ShipmentAbstract;
 
-class InpostShipment extends Shipment
+class Shipment extends ShipmentAbstract
 {
     public function getQuantity(): int
     {

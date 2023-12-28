@@ -6,7 +6,7 @@ namespace Sylapi\Courier\Inpost;
 
 use GuzzleHttp\Exception\ClientException;
 
-class InpostResponseErrorHelper
+class ResponseErrorHelper
 {
     const DEFAULT_MESSAGE = 'Something went wrong!';
 

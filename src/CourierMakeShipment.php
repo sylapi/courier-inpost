@@ -7,10 +7,10 @@ namespace Sylapi\Courier\Inpost;
 use Sylapi\Courier\Contracts\CourierMakeShipment;
 use Sylapi\Courier\Contracts\Shipment;
 
-class InpostCourierMakeShipment implements CourierMakeShipment
+class CourierMakeShipment implements CourierMakeShipment
 {
     public function makeShipment(): Shipment
     {
-        return new InpostShipment();
+        return new Shipment();
     }
 }

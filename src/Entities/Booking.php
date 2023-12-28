@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Sylapi\Courier\Inpost;
+namespace Sylapi\Courier\Inpost\Entities;
 
 use Rakit\Validation\Validator;
-use Sylapi\Courier\Abstracts\Booking;
+use Sylapi\Courier\Abstracts\Booking as BookingAbstract;
 
-class InpostBooking extends Booking
+class Booking extends BookingAbstract
 {
+
     public function validate(): bool
     {
         $rules = [
-            'shipmentId'   => 'required',
+            'shipmentId' => 'required',
         ];
-
         $data = [
             'shipmentId' => $this->getShipmentId(),
         ];

@@ -6,7 +6,7 @@ namespace Sylapi\Courier\Inpost;
 
 use GuzzleHttp\Client;
 
-class InpostSession
+class Session
 {
     private $parameters;
     private $client;
