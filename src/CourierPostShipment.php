@@ -56,7 +56,7 @@ class CourierPostShipment implements CourierPostShipmentContract
             $shipment = $result->shipments[0] ?? null;
             
             $response->setResponse($result);
-            $response->setShipmentId($booking->getShipmentId());
+            $response->setShipmentId((string) $booking->getShipmentId());
             $response->setTrackingId($shipment->tracking_number ?? null);
 
         } catch (ClientException $e) {

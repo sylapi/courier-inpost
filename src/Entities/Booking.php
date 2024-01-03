@@ -9,7 +9,7 @@ use Sylapi\Courier\Abstracts\Booking as BookingAbstract;
 
 class Booking extends BookingAbstract
 {
-    private array $dispatchPoint;
+    private array $dispatchPoint = [];
 
     public function setDispatchPoint(array $dispatchPoint): self
     {
@@ -33,7 +33,7 @@ class Booking extends BookingAbstract
     //     }
     // }
 
-    public function getDispatchPoint(): ?array
+    public function getDispatchPoint(): array
     {
         return $this->dispatchPoint;
     }

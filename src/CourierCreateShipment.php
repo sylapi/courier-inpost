@@ -139,7 +139,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception('Json data response is incorrect');
             }
-            $response->setShipmentId($result->id);
+            $response->setShipmentId((string) $result->id);
         } catch (ClientException $e) {
             throw new TransportException(ResponseErrorHelper::message($e));
         } catch (Exception $e) {

@@ -11,6 +11,7 @@ use Sylapi\Courier\Inpost\Entities\Shipment;
 use Sylapi\Courier\Inpost\CourierCreateShipment;
 use Sylapi\Courier\Exceptions\TransportException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Inpost\Entities\Options;
 use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
 
 class CourierCreateShipmentTest extends PHPUnitTestCase
@@ -23,6 +24,7 @@ class CourierCreateShipmentTest extends PHPUnitTestCase
         $receiverMock = $this->createMock(Receiver::class);
         $parcelMock = $this->createMock(Parcel::class);
         $shipmentMock = $this->createMock(Shipment::class);
+        $optionsMock = $this->createMock(Options::class);
 
         $shipmentMock->method('getSender')
                 ->willReturn($senderMock);
@@ -32,6 +34,9 @@ class CourierCreateShipmentTest extends PHPUnitTestCase
 
         $shipmentMock->method('getParcel')
                 ->willReturn($parcelMock);
+
+        $shipmentMock->method('getOptions')
+                ->willReturn($optionsMock);                
 
         return $shipmentMock;
     }
@@ -49,7 +54,7 @@ class CourierCreateShipmentTest extends PHPUnitTestCase
         $response = $inpostCourierCreateShipment->createShipment($this->getShipmentMock());
 
         $this->assertInstanceOf(ResponsesShipment::class, $response);
-        $this->assertEquals($response->getShipmentId(), '123');
+        $this->assertEquals($response->getShipmentId(), '1234567890');
         $this->assertNotEmpty($response->getShipmentId());
         $this->assertEquals('1234567890', $response->getShipmentId());
     }

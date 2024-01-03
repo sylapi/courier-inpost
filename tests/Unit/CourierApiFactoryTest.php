@@ -17,13 +17,6 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class CourierApiFactoryTest extends PHPUnitTestCase
 {
-    private $parameters = [
-        'token'            => 'token',
-        'organization_id'  => 'password',
-        'sandbox'          => true,
-        'labelType'        => 'normal',
-    ];
-
     public function testInpostSessionFactory()
     {
         $credentials = new Credentials();
@@ -39,8 +32,14 @@ class CourierApiFactoryTest extends PHPUnitTestCase
 
     public function testCourierFactoryCreate()
     {
-        $InpostCourierApiFactory = new CourierApiFactory(new SessionFactory());
-        $courier = $InpostCourierApiFactory->create($this->parameters);
+        $credentials = [
+            'login' => 'login',
+            'password' => 'password',
+            'sandbox' => true,
+        ];
+
+        $courierApiFactory = new CourierApiFactory(new SessionFactory());
+        $courier = $courierApiFactory->create($credentials);
 
         $this->assertInstanceOf(Courier::class, $courier);
         $this->assertInstanceOf(Booking::class, $courier->makeBooking());
