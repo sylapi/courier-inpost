@@ -2,11 +2,11 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Unit;
 
+use Sylapi\Courier\Inpost\Entities\Parcel;
+use Sylapi\Courier\Inpost\Entities\Sender;
+use Sylapi\Courier\Inpost\Entities\Receiver;
+use Sylapi\Courier\Inpost\Entities\Shipment;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Inpost\InpostParcel;
-use Sylapi\Courier\Inpost\InpostReceiver;
-use Sylapi\Courier\Inpost\InpostSender;
-use Sylapi\Courier\Inpost\InpostShipment;
 
 class ShipmentTest extends PHPUnitTestCase
 {

@@ -2,27 +2,26 @@
 
 namespace Sylapi\Courier\Inpost\Tests;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Contracts\Response;
-use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Inpost\InpostCourierCreateShipment;
-use Sylapi\Courier\Inpost\InpostParcel;
-use Sylapi\Courier\Inpost\InpostReceiver;
-use Sylapi\Courier\Inpost\InpostSender;
-use Sylapi\Courier\Inpost\InpostShipment;
-use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
+use Sylapi\Courier\Contracts\Response;
+use Sylapi\Courier\Inpost\Entities\Parcel;
+use Sylapi\Courier\Inpost\Entities\Sender;
+use Sylapi\Courier\Inpost\Entities\Receiver;
+use Sylapi\Courier\Inpost\Entities\Shipment;
+use Sylapi\Courier\Exceptions\TransportException;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
 
 class CourierCreateShipmentTest extends PHPUnitTestCase
 {
-    use InpostSessionTrait;
+    use SessionTrait;
 
     private function getShipmentMock()
     {
-        $senderMock = $this->createMock(InpostSender::class);
-        $receiverMock = $this->createMock(InpostReceiver::class);
-        $parcelMock = $this->createMock(InpostParcel::class);
-        $shipmentMock = $this->createMock(InpostShipment::class);
+        $senderMock = $this->createMock(Sender::class);
+        $receiverMock = $this->createMock(Receiver::class);
+        $parcelMock = $this->createMock(Parcel::class);
+        $shipmentMock = $this->createMock(Shipment::class);
 
         $shipmentMock->method('getSender')
                 ->willReturn($senderMock);

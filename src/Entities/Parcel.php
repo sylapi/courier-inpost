@@ -4,29 +4,44 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost\Entities;
 
-use Rakit\Validation\Validator;
 use Sylapi\Courier\Abstracts\Parcel as ParcelAbstract;
 
 class Parcel extends ParcelAbstract
 {
+    const SIZE_IMPACT = 10;
+
+    /**
+     * Convert: cm -> mm.
+     */
+    public function getHeight(): ?int
+    {
+        $value = parent::getHeight();
+
+        return is_numeric($value) ? (int) ($value * self::SIZE_IMPACT) : null;
+    }
+
+    /**
+     * Convert: cm -> mm.
+     */
+    public function getWidth(): ?int
+    {
+        $value = parent::getWidth();
+
+        return is_numeric($value) ? (int) ($value * self::SIZE_IMPACT) : null;
+    }
+
+    /**
+     * Convert: cm -> mm.
+     */
+    public function getLength(): ?int
+    {
+        $value = parent::getLength();
+
+        return is_numeric($value) ? (int) ($value * self::SIZE_IMPACT) : null;
+    }
+
     public function validate(): bool
     {
-        $rules = [
-            'weight' => 'required|numeric|min:0.01',
-        ];
-        $data = [
-            'weight' => $this->getWeight(),
-        ];
-
-        $validator = new Validator();
-
-        $validation = $validator->validate($data, $rules);
-        if ($validation->fails()) {
-            $this->setErrors($validation->errors()->toArray());
-
-            return false;
-        }
-
         return true;
     }
 }

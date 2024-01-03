@@ -2,16 +2,16 @@
 
 namespace Sylapi\Courier\Inpost\Tests;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Contracts\Label;
-use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Inpost\InpostCourierGetLabels;
-use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
+use Sylapi\Courier\Contracts\Label;
+use Sylapi\Courier\Inpost\CourierGetLabels;
+use Sylapi\Courier\Exceptions\TransportException;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
 
 class CourierGetLabelsTest extends PHPUnitTestCase
 {
-    use InpostSessionTrait;
+    use SessionTrait;
 
     public function testGetLabelSuccess()
     {

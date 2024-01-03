@@ -16,22 +16,26 @@ use Sylapi\Courier\Contracts\CourierPostShipment;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Courier as CourierBase;
 use Sylapi\Courier\Inpost\CourierCreateShipment as InpostCourierCreateShipment;
+use Sylapi\Courier\Inpost\Entities\Options;
 
 class Courier extends CourierBase
 {
     public function __construct(
+        /**
+        * @var InpostCourierCreateShipment $createShipment
+        */
         private CourierCreateShipment $createShipment,
-        private CourierPostShipment $postShipment,
-        private CourierGetLabels $getLabels,
-        private CourierGetStatuses $getStatuses,
-        private CourierMakeShipment $makeShipment,
-        private CourierMakeParcel $makeParcel,
-        private CourierMakeReceiver $makeReceiver,
-        private CourierMakeSender $makeSender,
-        private CourierMakeService $makeService,
-        private CourierMakeOptions $makeOptions,
-        private CourierMakeBooking $makeBooking,
-        private CourierMakeLabelType $makeLabelType
+        CourierPostShipment $postShipment,
+        CourierGetLabels $getLabels,
+        CourierGetStatuses $getStatuses,
+        CourierMakeShipment $makeShipment,
+        CourierMakeParcel $makeParcel,
+        CourierMakeReceiver $makeReceiver,
+        CourierMakeSender $makeSender,
+        CourierMakeService $makeService,
+        CourierMakeOptions $makeOptions,
+        CourierMakeBooking $makeBooking,
+        CourierMakeLabelType $makeLabelType
     ) {
         parent::__construct(
             $createShipment,
@@ -48,14 +52,12 @@ class Courier extends CourierBase
             $makeLabelType
         );
 
-        /**
-         * @var InpostCourierCreateShipment $createShipment
-         */
+
         $this->createShipment = $createShipment;
     }
 
     public function getTrackingId(string $shipmentId): ResponseContract
-    {
+    {   
         return $this->createShipment->getTrackingId($shipmentId);
     }
 

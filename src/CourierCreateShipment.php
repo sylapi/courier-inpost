@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Contracts\CourierCreateShipment as CourierCreateShipmentContract;
-use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Contracts\Shipment;
-use Sylapi\Courier\Entities\Response;
+use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Helpers\ResponseHelper;
+use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
+use Sylapi\Courier\Contracts\Response as ResponseContract;
+use Sylapi\Courier\Contracts\CourierCreateShipment as CourierCreateShipmentContract;
+use Sylapi\Courier\Inpost\Responses\Shipment as ShipmentResponse;
 
 class CourierCreateShipment implements CourierCreateShipmentContract
 {
@@ -26,15 +26,15 @@ class CourierCreateShipment implements CourierCreateShipmentContract
 
     public function getShipmentId(string $trackingId): ResponseContract
     {
-        $response = new Response();
-        $response->trackingId = $trackingId;
+        $response = new ShipmentResponse();
+        $response->setTrackingId($trackingId);
 
         try {
             $stream = $this->session
             ->client()
             ->request(
                 'GET',
-                $this->getPath($this->session->parameters()->organization_id ?? null),
+                $this->getPath($this->session->getOrganizationId()),
                 [
                     'form_params' => [
                         'tracking_number' => $trackingId,
@@ -60,15 +60,14 @@ class CourierCreateShipment implements CourierCreateShipmentContract
                 throw new Exception('Shipment (tracking_id: '.$trackingId.') does not exist.');
             }
 
-            $response->shipmentId = $result->items[0]->id;
+            $response->setResponse($result);
+            $response->setShipmentId($result->items[0]->id);
         } catch (ClientException $e) {
-            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+            throw new TransportException(ResponseErrorHelper::message($e));
 
             return $response;
         } catch (Exception $e) {
-            $excaption = new TransportException($e->getMessage(), $e->getCode());
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+            throw new TransportException($e->getMessage(), $e->getCode());
         }
 
         return $response;
@@ -76,15 +75,16 @@ class CourierCreateShipment implements CourierCreateShipmentContract
 
     public function getTrackingId(string $shipmentId): ResponseContract
     {
-        $response = new Response();
-        $response->shipmentId = $shipmentId;
+        $response = new ShipmentResponse();
+
+        $response->setShipmentId($shipmentId);
 
         try {
             $stream = $this->session
             ->client()
             ->request(
                 'GET',
-                $this->getPath($this->session->parameters()->organization_id ?? null),
+                $this->getPath($this->session->getOrganizationId()),
                 [
                     'form_params' => [
                         'id' => $shipmentId,
@@ -110,16 +110,12 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             ) {
                 throw new Exception('Shipment (id: '.$shipmentId.') does not exist.');
             }
-
-            $response->trackingId = $result->items[0]->tracking_number;
+            $response->setResponse($result);
+            $response->setTrackingId($result->items[0]->tracking_number);
         } catch (ClientException $e) {
-            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
-
-            return $response;
+            throw new TransportException(ResponseErrorHelper::message($e));
         } catch (Exception $e) {
-            $excaption = new TransportException($e->getMessage(), $e->getCode());
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+            throw new TransportException($e->getMessage(), $e->getCode());
         }
 
         return $response;
@@ -127,15 +123,14 @@ class CourierCreateShipment implements CourierCreateShipmentContract
 
     public function createShipment(Shipment $shipment): ResponseContract
     {
-        $response = new Response();
-
+        $response = new ShipmentResponse();
         try {
             $request = $this->getShipment($shipment);
             $stream = $this->session
                 ->client()
                 ->request(
                     'POST',
-                    $this->getPath($this->session->parameters()->organization_id ?? null),
+                    $this->getPath($this->session->getOrganizationId()),
                     ['json' => $request]
                 );
 
@@ -144,16 +139,11 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
                 throw new Exception('Json data response is incorrect');
             }
-            $response->shipmentId = $result->id;
-            $response->trackingId = null;
+            $response->setShipmentId($result->id);
         } catch (ClientException $e) {
-            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
-
-            return $response;
+            throw new TransportException(ResponseErrorHelper::message($e));
         } catch (Exception $e) {
-            $excaption = new TransportException($e->getMessage(), $e->getCode());
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+            throw new TransportException($e->getMessage(), $e->getCode());
         }
 
         return $response;
@@ -201,9 +191,11 @@ class CourierCreateShipment implements CourierCreateShipmentContract
                 ],
             ],
             'reference' => $shipment->getContent(),
-            'service'   => $this->session->parameters()->getService(),
+            // 'service'   => $this->session->parameters()->getService(), //TODO: add service
         ];
 
+        //TODO: add service
+        /*
         if ($this->session->parameters()->hasProperty('target_point')) {
             $data['custom_attributes']['target_point'] = $this->session->parameters()->target_point;
         }
@@ -215,6 +207,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
         if ($this->session->parameters()->hasProperty('insurance') && is_array($this->session->parameters()->insurance)) {
             $data['insurance'] = $this->session->parameters()->insurance;
         }
+        */
 
         return $data;
     }

@@ -4,21 +4,25 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
-use Sylapi\Courier\Inpost\InpostCourier as Courier;
+use Sylapi\Courier\Inpost\Courier;
+use Sylapi\Courier\Inpost\Entities\Credentials;
+
 
 class CourierApiFactory
 {
     private $inpostSessionFactory;
 
-    public function __construct(InpostSessionFactory $inpostSessionFactory)
+    public function __construct(SessionFactory $inpostSessionFactory)
     {
         $this->inpostSessionFactory = $inpostSessionFactory;
     }
 
-    public function create(array $parameters): Courier
+    public function create(array $credentials): Courier
     {
+        $credentials = Credentials::from($credentials);
+
         $session = $this->inpostSessionFactory
-                    ->session(InpostParameters::create($parameters));
+                    ->session($credentials);
 
         return new Courier(
             new CourierCreateShipment($session),
@@ -29,7 +33,10 @@ class CourierApiFactory
             new CourierMakeParcel(),
             new CourierMakeReceiver(),
             new CourierMakeSender(),
-            new CourierMakeBooking()
+            new CourierMakeService(),
+            new CourierMakeOptions(),
+            new CourierMakeBooking(),
+            new CourierMakeLabelType(),
         );
     }
 }

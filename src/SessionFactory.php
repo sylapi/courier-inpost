@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
+use Sylapi\Courier\Inpost\Entities\Credentials;
+
 class SessionFactory
 {
     private $sessions = [];
-    private $parameters;
 
     const API_LIVE = 'https://api-shipx-pl.easypack24.net';
     const API_SANDBOX = 'https://sandbox-api-shipx-pl.easypack24.net';
 
-    public function session(Parameters $parameters): Session
+    public function session(Credentials $credentials): Session
     {
-        $this->parameters = $parameters;
-        $this->parameters->apiUrl = ($this->parameters->sandbox) ? self::API_SANDBOX : self::API_LIVE;
+        $apiUrl = $credentials->isSandbox() ? self::API_SANDBOX : self::API_LIVE;
 
-        $key = sha1($this->parameters->apiUrl.':'.$this->parameters->token);
+        $credentials->setApiUrl($apiUrl);
 
-        return (isset($this->sessions[$key])) ? $this->sessions[$key] : ($this->sessions[$key] = new Session($this->parameters));
+        $key = sha1( $apiUrl.':'.$credentials->getLogin().':'.$credentials->getPassword());
+
+        return (isset($this->sessions[$key])) ? $this->sessions[$key] : ($this->sessions[$key] = new Session($credentials));
     }
 }

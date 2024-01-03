@@ -5,29 +5,26 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use GuzzleHttp\Client;
+use Sylapi\Courier\Inpost\Entities\Credentials;
 
 class Session
 {
-    private $parameters;
+    private $credentials;
     private $client;
     private $token;
 
-    public function __construct(InpostParameters $parameters)
+    public function __construct(Credentials $credentials)
     {
-        $this->parameters = $parameters;
+        $this->credentials = $credentials;
         $this->client = null;
-        $this->token = $this->parameters->token ?? null;
+        $this->token = $this->credentials->getPassword();
     }
 
-    public function parameters(): InpostParameters
-    {
-        return $this->parameters;
-    }
 
     public function client(): Client
     {
         if (!$this->client) {
-            $this->initializeSession();
+            $this->client = $this->initializeSession();
         }
 
         return $this->client;
@@ -38,14 +35,21 @@ class Session
         return $this->token;
     }
 
-    private function initializeSession(): void
+    public function getOrganizationId(): string
+    {
+        return $this->credentials->getOrganizationId();
+    }
+
+    private function initializeSession(): Client
     {
         $this->client = new Client([
-            'base_uri' => $this->parameters->apiUrl,
+            'base_uri' => $this->credentials->getApiUrl(),
             'headers'  => [
                 'Content-Type'  => 'application/json',
                 'Authorization' => 'Bearer '.$this->token(),
             ],
         ]);
+
+        return $this->client;
     }
 }

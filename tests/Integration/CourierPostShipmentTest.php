@@ -2,21 +2,20 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Integration;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Contracts\Response;
-use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Inpost\InpostBooking;
-use Sylapi\Courier\Inpost\InpostCourierPostShipment;
-use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
 use Throwable;
+use Sylapi\Courier\Contracts\Response;
+use Sylapi\Courier\Inpost\Entities\Booking;
+use Sylapi\Courier\Inpost\CourierPostShipment;
+use Sylapi\Courier\Exceptions\TransportException;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class CourierPostShipmentTest extends PHPUnitTestCase
 {
-    use InpostSessionTrait;
+    use SessionTrait;
 
     private function getBookingMock($shipmentId)
     {
-        $bookingMock = $this->createMock(InpostBooking::class);
+        $bookingMock = $this->createMock(Booking::class);
         $bookingMock->method('getShipmentId')->willReturn($shipmentId);
         $bookingMock->method('validate')->willReturn(true);
 

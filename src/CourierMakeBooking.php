@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sylapi\Courier\Inpost;
 
-use Sylapi\Courier\Contracts\Booking;
+use Sylapi\Courier\Inpost\Entities\Booking;
 use Sylapi\Courier\Contracts\Booking as BookingContract;
 use Sylapi\Courier\Contracts\CourierMakeBooking as CourierMakeBookingContract;
 

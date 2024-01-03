@@ -2,17 +2,16 @@
 
 namespace Sylapi\Courier\Inpost\Tests;
 
-use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Throwable;
 use Sylapi\Courier\Contracts\Status;
 use Sylapi\Courier\Enums\StatusType;
+use Sylapi\Courier\Inpost\CourierGetStatuses;
 use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Inpost\InpostCourierGetStatuses;
-use Sylapi\Courier\Inpost\Tests\Helpers\InpostSessionTrait;
-use Throwable;
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class CourierGetStatusTest extends PHPUnitTestCase
 {
-    use InpostSessionTrait;
+    use SessionTrait;
 
     public function testGetStatusSuccess()
     {

@@ -5,39 +5,43 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Contracts\Booking;
-use Sylapi\Courier\Contracts\CourierPostShipment;
-use Sylapi\Courier\Contracts\Response as ResponseContract;
-use Sylapi\Courier\Entities\Response;
-use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Inpost\Responses\Parcel as ParcelResponse;
+use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Helpers\ResponseHelper;
+use Sylapi\Courier\Exceptions\TransportException;
+use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
+use Sylapi\Courier\Contracts\Response as ResponseContract;
+use Sylapi\Courier\Contracts\CourierPostShipment as CourierPostShipmentContract;
 
-class CourierPostShipment implements CourierPostShipment
+class CourierPostShipment implements CourierPostShipmentContract
 {
     const API_PATH = '/v1/organizations/:organization_id/dispatch_orders';
 
     private $session;
 
-    public function __construct(InpostSession $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }
 
     public function postShipment(Booking $booking): ResponseContract
     {
-        $response = new Response();
+        $response = new ParcelResponse();
 
         try {
             $request = [
                 'shipments' => [$booking->getShipmentId()],
             ];
-            $request = array_merge($request, $this->session->parameters()->getDispatchPoint());
+            /**
+             * @var \Sylapi\Courier\Inpost\Entities\Booking $booking
+             */
+            $request = array_merge($request, $booking->getDispatchPoint());
 
             $stream = $this->session
                 ->client()
                 ->post(
-                    $this->getPath($this->session->parameters()->organization_id),
+                    $this->getPath($this->session->getOrganizationId()),
                     [
                         'json' => $request,
                     ]
@@ -49,17 +53,16 @@ class CourierPostShipment implements CourierPostShipment
                 throw new Exception('Json data is incorrect');
             }
 
-            $response->shipmentId = $booking->getShipmentId();
             $shipment = $result->shipments[0] ?? null;
-            $response->trackingId = $shipment->tracking_number ?? null;
-        } catch (ClientException $e) {
-            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+            
+            $response->setResponse($result);
+            $response->setShipmentId($booking->getShipmentId());
+            $response->setTrackingId($shipment->tracking_number ?? null);
 
-            return $response;
+        } catch (ClientException $e) {
+            throw new TransportException(ResponseErrorHelper::message($e));
         } catch (Exception $e) {
-            $excaption = new TransportException($e->getMessage(), $e->getCode());
-            ResponseHelper::pushErrorsToResponse($response, [$excaption]);
+            throw new TransportException($e->getMessage(), $e->getCode());
         }
 
         return $response;

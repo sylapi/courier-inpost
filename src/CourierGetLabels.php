@@ -5,25 +5,26 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
+use Sylapi\Courier\Inpost\Responses\Label as LabelResponse;
 use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Contracts\CourierGetLabels;
-use Sylapi\Courier\Contracts\Label as LabelContract;
-use Sylapi\Courier\Entities\Label;
 use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Helpers\ResponseHelper;
+use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
+use Sylapi\Courier\Contracts\Response as ResponseContract;
+use Sylapi\Courier\Contracts\CourierGetLabels as CourierGetLabelsContract;
+use Sylapi\Courier\Contracts\LabelType as LabelTypeContract;
 
-class CourierGetLabels implements CourierGetLabels
+class CourierGetLabels implements CourierGetLabelsContract
 {
     const API_PATH = '/v1/shipments/:shipment_id/label';
 
     private $session;
 
-    public function __construct(InpostSession $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }
 
-    public function getLabel(string $shipmentId): LabelContract
+    public function getLabel(string $shipmentId, LabelTypeContract $labelType): ResponseContract
     {
         try {
             $stream = $this->session
@@ -32,26 +33,18 @@ class CourierGetLabels implements CourierGetLabels
                     $this->getPath($shipmentId),
                     [
                         'query' => [
-                            'type' => $this->session->parameters()->getLabelType(),
+                            'type' => $labelType->getLabelType(),
                         ],
                     ]
                 );
 
             $result = $stream->getBody()->getContents();
 
-            return new Label((string) $result);
+            return new LabelResponse((string) $result);
         } catch (ClientException $e) {
-            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
-            $label = new Label(null);
-            ResponseHelper::pushErrorsToResponse($label, [$excaption]);
-
-            return $label;
+            throw new TransportException(ResponseErrorHelper::message($e));
         } catch (Exception $e) {
-            $excaption = new TransportException($e->getMessage(), $e->getCode());
-            $label = new Label(null);
-            ResponseHelper::pushErrorsToResponse($label, [$excaption]);
-
-            return $label;
+            throw new TransportException($e->getMessage(), $e->getCode());
         }
     }
 

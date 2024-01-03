@@ -9,6 +9,19 @@ use Sylapi\Courier\Abstracts\Booking as BookingAbstract;
 
 class Booking extends BookingAbstract
 {
+    private array $dispatchPoint;
+
+    public function setDispatchPoint(array $dispatchPoint): self
+    {
+        $this->dispatchPoint = $dispatchPoint;
+
+        return $this;
+    }
+
+    public function getDispatchPoint(): ?array
+    {
+        return $this->dispatchPoint;
+    }
 
     public function validate(): bool
     {

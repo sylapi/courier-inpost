@@ -5,42 +5,34 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost;
 
 use Exception;
-use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Contracts\CourierGetStatuses;
-use Sylapi\Courier\Contracts\Status as StatusContract;
-use Sylapi\Courier\Entities\Status;
 use Sylapi\Courier\Enums\StatusType;
+use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Exceptions\TransportException;
-use Sylapi\Courier\Helpers\ResponseHelper;
+use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
+use Sylapi\Courier\Contracts\Response as ResponseContract;
+use Sylapi\Courier\Inpost\Responses\Status as StatusResponse;
+use Sylapi\Courier\Contracts\CourierGetStatuses as CourierGetStatusesContract;
 
-class CourierGetStatuses implements CourierGetStatuses
+class CourierGetStatuses implements CourierGetStatusesContract
 {
     private $session;
 
     const API_PATH_TRACKING = '/v1/tracking/:tracking_number';
     const API_PATH = '/v1/organizations/:organization_id/shipments/?tracking_number=:shipment_id';
 
-    public function __construct(InpostSession $session)
+    public function __construct(Session $session)
     {
         $this->session = $session;
     }
 
-    public function getStatus(string $shipmentId): StatusContract
+    public function getStatus(string $shipmentId): ResponseContract
     {
         try {
             return $this->getStatusByShipmentId($shipmentId);
         } catch (ClientException $e) {
-            $excaption = new TransportException(InpostResponseErrorHelper::message($e));
-            $status = new Status(StatusType::APP_RESPONSE_ERROR);
-            ResponseHelper::pushErrorsToResponse($status, [$excaption]);
-
-            return $status;
+            throw new TransportException(ResponseErrorHelper::message($e));
         } catch (Exception $e) {
-            $excaption = new TransportException($e->getMessage(), $e->getCode());
-            $status = new Status(StatusType::APP_RESPONSE_ERROR);
-            ResponseHelper::pushErrorsToResponse($status, [$excaption]);
-
-            return $status;
+           throw new TransportException($e->getMessage(), $e->getCode());
         }
     }
 
@@ -54,13 +46,13 @@ class CourierGetStatuses implements CourierGetStatuses
         return str_replace(':tracking_number', $value, self::API_PATH_TRACKING);
     }
 
-    private function getStatusByShipmentId(string $shipmentId): Status
+    private function getStatusByShipmentId(string $shipmentId): StatusResponse
     {
         $stream = $this->session
             ->client()
             ->get($this->getPathByShipmentId([
                 ':shipment_id'     => $shipmentId,
-                ':organization_id' => $this->session->parameters()->organization_id,
+                ':organization_id' => $this->session->getOrganizationId(),
             ]));
 
         $result = json_decode($stream->getBody()->getContents());
@@ -69,10 +61,11 @@ class CourierGetStatuses implements CourierGetStatuses
             ? new StatusTransformer((string) $result->items[0]->status)
             : StatusType::APP_RESPONSE_ERROR;
 
-        return new Status((string) $statusName);
+
+        return new StatusResponse((string) new StatusTransformer((string) $statusName));
     }
 
-    private function getStatusByTrackingId(string $shipmentId): Status
+    private function getStatusByTrackingId(string $shipmentId): StatusResponse
     {
         $stream = $this->session
         ->client()
@@ -84,6 +77,6 @@ class CourierGetStatuses implements CourierGetStatuses
             throw new Exception('Json data is incorrect');
         }
 
-        return new Status((string) new StatusTransformer((string) $result->status));
+        return new StatusResponse((string) new StatusTransformer((string) $result->status));
     }
 }

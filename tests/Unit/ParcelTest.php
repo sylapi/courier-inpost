@@ -2,8 +2,8 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Unit;
 
+use Sylapi\Courier\Inpost\Entities\Parcel;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Inpost\InpostParcel;
 
 class ParcelTest extends PHPUnitTestCase
 {
@@ -12,7 +12,7 @@ class ParcelTest extends PHPUnitTestCase
         $value = rand(1, 2000);
         $parcel = new Parcel();
         $parcel->setWidth($value);
-        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT), $parcel->getWidth());
+        $this->assertEquals(($value * Parcel::SIZE_IMPACT), $parcel->getWidth());
     }
 
     public function testHeighthConvertingCmToMm()
@@ -20,7 +20,7 @@ class ParcelTest extends PHPUnitTestCase
         $value = rand(1, 2000);
         $parcel = new Parcel();
         $parcel->setHeight($value);
-        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT), $parcel->getHeight());
+        $this->assertEquals(($value * Parcel::SIZE_IMPACT), $parcel->getHeight());
     }
 
     public function testLengthConvertingCmToMm()
@@ -28,6 +28,6 @@ class ParcelTest extends PHPUnitTestCase
         $value = rand(1, 2000);
         $parcel = new Parcel();
         $parcel->setLength($value);
-        $this->assertEquals(($value * InpostParcel::SIZE_IMPACT), $parcel->getLength());
+        $this->assertEquals(($value * Parcel::SIZE_IMPACT), $parcel->getLength());
     }
 }
