@@ -12,6 +12,7 @@ use Sylapi\Courier\Inpost\Entities\Booking;
 use Sylapi\Courier\Inpost\CourierApiFactory;
 use Sylapi\Courier\Inpost\Entities\Receiver;
 use Sylapi\Courier\Inpost\Entities\Shipment;
+use Sylapi\Courier\Inpost\Entities\Credentials;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 class CourierApiFactoryTest extends PHPUnitTestCase
@@ -25,11 +26,15 @@ class CourierApiFactoryTest extends PHPUnitTestCase
 
     public function testInpostSessionFactory()
     {
-        $InpostSessionFactory = new SessionFactory();
-        $InpostSession = $InpostSessionFactory->session(
-            Parameters::create($this->parameters)
+        $credentials = new Credentials();
+        $credentials->setLogin('login');
+        $credentials->setPassword('password');
+        $credentials->setSandbox(true);
+        $sessionFactory = new SessionFactory();
+        $session = $sessionFactory->session(
+            $credentials
         );
-        $this->assertInstanceOf(Session::class, $InpostSession);
+        $this->assertInstanceOf(Session::class, $session);
     }
 
     public function testCourierFactoryCreate()

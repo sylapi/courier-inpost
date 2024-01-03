@@ -3,11 +3,12 @@
 namespace Sylapi\Courier\Inpost\Tests;
 
 use Throwable;
-use Sylapi\Courier\Contracts\Response;
+use Sylapi\Courier\Inpost\Responses\Shipment as ResponsesShipment;
 use Sylapi\Courier\Inpost\Entities\Parcel;
 use Sylapi\Courier\Inpost\Entities\Sender;
 use Sylapi\Courier\Inpost\Entities\Receiver;
 use Sylapi\Courier\Inpost\Entities\Shipment;
+use Sylapi\Courier\Inpost\CourierCreateShipment;
 use Sylapi\Courier\Exceptions\TransportException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
@@ -47,10 +48,10 @@ class CourierCreateShipmentTest extends PHPUnitTestCase
         $inpostCourierCreateShipment = new CourierCreateShipment($sessionMock);
         $response = $inpostCourierCreateShipment->createShipment($this->getShipmentMock());
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertObjectHasAttribute('shipmentId', $response);
-        $this->assertNotEmpty($response->shipmentId);
-        $this->assertEquals('1234567890', $response->shipmentId);
+        $this->assertInstanceOf(ResponsesShipment::class, $response);
+        $this->assertEquals($response->getShipmentId(), '123');
+        $this->assertNotEmpty($response->getShipmentId());
+        $this->assertEquals('1234567890', $response->getShipmentId());
     }
 
     public function testCreateShipmentFailure()
@@ -63,10 +64,9 @@ class CourierCreateShipmentTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierCreateShipment = new CourierCreateShipment($sessionMock);
-        $response = $inpostCourierCreateShipment->createShipment($this->getShipmentMock());
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertInstanceOf(Throwable::class, $response->getFirstError());
-        $this->assertInstanceOf(TransportException::class, $response->getFirstError());
+
+        $this->expectException(TransportException::class);
+        $courierCreateShipment = new CourierCreateShipment($sessionMock);
+        $courierCreateShipment->createShipment($this->getShipmentMock());
     }
 }

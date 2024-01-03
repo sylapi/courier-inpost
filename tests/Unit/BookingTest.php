@@ -2,8 +2,9 @@
 
 namespace Sylapi\Courier\Inpost\Tests\Unit;
 
+use Sylapi\Courier\Inpost\Entities\Booking;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
-use Sylapi\Courier\Inpost\InpostBooking;
+
 
 class BookingTest extends PHPUnitTestCase
 {

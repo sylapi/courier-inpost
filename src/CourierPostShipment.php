@@ -41,7 +41,7 @@ class CourierPostShipment implements CourierPostShipmentContract
             $stream = $this->session
                 ->client()
                 ->post(
-                    $this->getPath($this->session->getOrganizationId()),
+                    $this->getPath($this->session->organizationId()),
                     [
                         'json' => $request,
                     ]

@@ -34,7 +34,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             ->client()
             ->request(
                 'GET',
-                $this->getPath($this->session->getOrganizationId()),
+                $this->getPath($this->session->organizationId()),
                 [
                     'form_params' => [
                         'tracking_number' => $trackingId,
@@ -84,7 +84,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             ->client()
             ->request(
                 'GET',
-                $this->getPath($this->session->getOrganizationId()),
+                $this->getPath($this->session->organizationId()),
                 [
                     'form_params' => [
                         'id' => $shipmentId,
@@ -130,7 +130,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
                 ->client()
                 ->request(
                     'POST',
-                    $this->getPath($this->session->getOrganizationId()),
+                    $this->getPath($this->session->organizationId()),
                     ['json' => $request]
                 );
 

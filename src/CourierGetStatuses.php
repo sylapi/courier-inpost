@@ -52,7 +52,7 @@ class CourierGetStatuses implements CourierGetStatusesContract
             ->client()
             ->get($this->getPathByShipmentId([
                 ':shipment_id'     => $shipmentId,
-                ':organization_id' => $this->session->getOrganizationId(),
+                ':organization_id' => $this->session->organizationId(),
             ]));
 
         $result = json_decode($stream->getBody()->getContents());

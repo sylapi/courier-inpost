@@ -35,9 +35,9 @@ class Session
         return $this->token;
     }
 
-    public function getOrganizationId(): string
+    public function organizationId(): string
     {
-        return $this->credentials->getOrganizationId();
+        return $this->credentials->getLogin();
     }
 
     private function initializeSession(): Client
