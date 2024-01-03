@@ -3,11 +3,12 @@
 namespace Sylapi\Courier\Inpost\Tests\Integration;
 
 use Throwable;
-use Sylapi\Courier\Contracts\Response;
+use Sylapi\Courier\Inpost\Responses\Parcel as ParcelResponse;
 use Sylapi\Courier\Inpost\Entities\Booking;
 use Sylapi\Courier\Inpost\CourierPostShipment;
 use Sylapi\Courier\Exceptions\TransportException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
 
 class CourierPostShipmentTest extends PHPUnitTestCase
 {
@@ -37,12 +38,10 @@ class CourierPostShipmentTest extends PHPUnitTestCase
         $booking = $this->getBookingMock($shipmentId);
         $response = $inpostCourierCreateShipment->postShipment($booking);
 
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertObjectHasAttribute('shipmentId', $response);
-        $this->assertNotEmpty($response->shipmentId);
-        $this->assertEquals('1234567890', $response->shipmentId);
-        $this->assertObjectHasAttribute('trackingId', $response);
-        $this->assertEquals($response->trackingId, '622111081631876319900026');
+        $this->assertInstanceOf(ParcelResponse::class, $response);
+        $this->assertNotEmpty($response->getShipmentId());
+        $this->assertEquals('1234567890', $response->getShipmentId());
+        $this->assertEquals($response->getTrackingId(), '622111081631876319900026');
     }
 
     public function testPostShipmentFailure()
@@ -54,14 +53,11 @@ class CourierPostShipmentTest extends PHPUnitTestCase
                 'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json'),
             ],
         ]);
-
-        $inpostCourierCreateShipment = new CourierPostShipment($sessionMock);
+        $this->expectException(TransportException::class);
+        
+        $courierCreateShipment = new CourierPostShipment($sessionMock);
         $shipmentId = 1234567890;
         $booking = $this->getBookingMock($shipmentId);
-        $response = $inpostCourierCreateShipment->postShipment($booking);
-
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertInstanceOf(Throwable::class, $response->getFirstError());
-        $this->assertInstanceOf(TransportException::class, $response->getFirstError());
+        $courierCreateShipment->postShipment($booking);
     }
 }

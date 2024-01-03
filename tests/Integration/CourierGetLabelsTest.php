@@ -5,9 +5,11 @@ namespace Sylapi\Courier\Inpost\Tests;
 use Throwable;
 use Sylapi\Courier\Contracts\Label;
 use Sylapi\Courier\Inpost\CourierGetLabels;
+use Sylapi\Courier\Inpost\Entities\LabelType;
 use Sylapi\Courier\Exceptions\TransportException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
+use Sylapi\Courier\Inpost\Responses\Label as LabelResponse;
 
 class CourierGetLabelsTest extends PHPUnitTestCase
 {
@@ -25,7 +27,9 @@ class CourierGetLabelsTest extends PHPUnitTestCase
 
         $inpostCourierGetLabels = new CourierGetLabels($sessionMock);
 
-        $response = $inpostCourierGetLabels->getLabel('123');
+        $labelTypeMock = $this->createMock(LabelType::class);
+        $response = $inpostCourierGetLabels->getLabel('123', $labelTypeMock);
+        $this->assertInstanceOf(LabelResponse::class, $response);
         $this->assertEquals($response, 'JVBERi0xLjcKOCAwIG9iago8PCAv');
     }
 
@@ -38,12 +42,10 @@ class CourierGetLabelsTest extends PHPUnitTestCase
                 'body'   => file_get_contents(__DIR__.'/Mock/InpostCourierActionFailure.json'),
             ],
         ]);
+        $this->expectException(TransportException::class);
 
-        $inpostCourierGetLabels = new CourierGetLabels($sessionMock);
-        $response = $inpostCourierGetLabels->getLabel('123');
-        $this->assertInstanceOf(Label::class, $response);
-        $this->assertEquals(null, (string) $response);
-        $this->assertInstanceOf(Throwable::class, $response->getFirstError());
-        $this->assertInstanceOf(TransportException::class, $response->getFirstError());
+        $courierGetLabels = new CourierGetLabels($sessionMock);
+        $labelTypeMock = $this->createMock(LabelType::class);
+        $courierGetLabels->getLabel('123', $labelTypeMock);
     }
 }

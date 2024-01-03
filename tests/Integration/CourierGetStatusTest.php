@@ -8,6 +8,7 @@ use Sylapi\Courier\Enums\StatusType;
 use Sylapi\Courier\Inpost\CourierGetStatuses;
 use Sylapi\Courier\Exceptions\TransportException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Sylapi\Courier\Inpost\Tests\Helpers\SessionTrait;
 
 class CourierGetStatusTest extends PHPUnitTestCase
 {
@@ -23,11 +24,9 @@ class CourierGetStatusTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierGetStatuses = new CourierGetStatuses($sessionMock);
-
-        $response = $inpostCourierGetStatuses->getStatus('123');
-        // $this->assertInstanceOf(Status::class, $response);
-        $this->assertEquals((string) $response, StatusType::ORDERED);
+        $courierGetStatuses = new CourierGetStatuses($sessionMock);
+        $response = $courierGetStatuses->getStatus('123');
+        $this->assertEquals($response, StatusType::ORDERED->value);
     }
 
     public function testGetStatusFailure()
@@ -40,11 +39,8 @@ class CourierGetStatusTest extends PHPUnitTestCase
             ],
         ]);
 
-        $inpostCourierGetStatuses = new CourierGetStatuses($sessionMock);
-        $response = $inpostCourierGetStatuses->getStatus('123');
-        $this->assertInstanceOf(Status::class, $response);
-        $this->assertEquals(StatusType::APP_RESPONSE_ERROR, (string) $response);
-        $this->assertInstanceOf(Throwable::class, $response->getFirstError());
-        $this->assertInstanceOf(TransportException::class, $response->getFirstError());
+        $this->expectException(TransportException::class);
+        $courierGetStatuses = new CourierGetStatuses($sessionMock);
+        $courierGetStatuses->getStatus('123');
     }
 }
