@@ -151,6 +151,10 @@ class CourierCreateShipment implements CourierCreateShipmentContract
 
     private function getShipment(Shipment $shipment): array
     {
+        /**
+         * @var \Sylapi\Courier\Inpost\Entities\Options $options
+         */
+        $options = $shipment->getOptions();
         $data = [
             'receiver' => [
                 'company_name'  => $shipment->getReceiver()->getFullName(),
@@ -191,7 +195,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
                 ],
             ],
             'reference' => $shipment->getContent(),
-            // 'service'   => $this->session->parameters()->getService(), //TODO: add service
+            'service'   => $options->getService(),
         ];
 
         //TODO: add service
