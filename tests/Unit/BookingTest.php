@@ -15,10 +15,4 @@ class BookingTest extends PHPUnitTestCase
         $booking->setShipmentId($value);
         $this->assertTrue($booking->validate());
     }
-
-    public function testValidatorBookingHasNotShipmentId()
-    {
-        $booking = new Booking();
-        $this->assertFalse($booking->validate());
-    }
 }

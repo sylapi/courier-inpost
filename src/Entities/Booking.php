@@ -5,37 +5,41 @@ declare(strict_types=1);
 namespace Sylapi\Courier\Inpost\Entities;
 
 use Rakit\Validation\Validator;
+use Sylapi\Courier\Exceptions\ValidateException;
 use Sylapi\Courier\Abstracts\Booking as BookingAbstract;
 
 class Booking extends BookingAbstract
 {
-    private array $dispatchPoint = [];
+    protected string $dispatchPointId;
+    protected string $dispatchPointAddress;
 
-    public function setDispatchPoint(array $dispatchPoint): self
+    public function setDispatchPointId(string $dispatchPointId): self
     {
-        $this->dispatchPoint = $dispatchPoint;
+        $this->dispatchPointId = $dispatchPointId;
 
         return $this;
     }
 
-    // public function getDispatchPoint()
-    // {
-    //     if ($this->hasProperty('dispatch_point_id')) {
-    //         return [
-    //             'dispatch_point_id' => $this->dispatch_point_id,
-    //         ];
-    //     } elseif ($this->hasProperty('dispatch_point')) {
-    //         return [
-    //             'address' => $this->dispatch_point,
-    //         ];
-    //     } else {
-    //         throw new ValidateException('Dispatch point is not defined');
-    //     }
-    // }
-
-    public function getDispatchPoint(): array
+    public function setDispatchPointAddress(string $dispatchPointAddress): self
     {
-        return $this->dispatchPoint;
+        $this->dispatchPointAddress = $dispatchPointAddress;
+
+        return $this;
+    }
+
+    public function getDispatchPoint(): array 
+    {
+        if ($this->dispatchPointId) {
+            return [
+                'dispatch_point_id' => $this->dispatchPointId,
+            ];
+        } elseif ($this->dispatchPointAddress) {
+            return [
+                'address' => $this->dispatchPointAddress,
+            ];
+        } else {
+            throw new ValidateException('Dispatch point is not defined');
+        }
     }
 
     public function validate(): bool
