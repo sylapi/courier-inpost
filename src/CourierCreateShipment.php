@@ -64,8 +64,6 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             $response->setShipmentId($result->items[0]->id);
         } catch (ClientException $e) {
             throw new TransportException(ResponseErrorHelper::message($e));
-
-            return $response;
         } catch (Exception $e) {
             throw new TransportException($e->getMessage(), $e->getCode());
         }
@@ -198,20 +196,16 @@ class CourierCreateShipment implements CourierCreateShipmentContract
             'service'   => $options->getService(),
         ];
 
-        //TODO: add service
-        /*
-        if ($this->session->parameters()->hasProperty('target_point')) {
-            $data['custom_attributes']['target_point'] = $this->session->parameters()->target_point;
-        }
+        
 
-        if ($this->session->parameters()->hasProperty('cod') && is_array($this->session->parameters()->cod)) {
-            $data['cod'] = $this->session->parameters()->cod;
-        }
-
-        if ($this->session->parameters()->hasProperty('insurance') && is_array($this->session->parameters()->insurance)) {
-            $data['insurance'] = $this->session->parameters()->insurance;
-        }
-        */
+        $services = $shipment->getServices();
+        
+        if($services) {
+            foreach($services as $service) {
+                $service->setRequest($data);
+                $data = $service->handle();
+            }
+        } 
 
         return $data;
     }

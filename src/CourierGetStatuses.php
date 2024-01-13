@@ -65,6 +65,7 @@ class CourierGetStatuses implements CourierGetStatusesContract
         return new StatusResponse((string) new StatusTransformer((string) $statusName));
     }
 
+    /* @phpstan-ignore-next-line */
     private function getStatusByTrackingId(string $shipmentId): StatusResponse
     {
         $stream = $this->session
