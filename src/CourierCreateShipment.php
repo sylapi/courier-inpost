@@ -9,7 +9,6 @@ use Sylapi\Courier\Contracts\Shipment;
 use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
-use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Contracts\CourierCreateShipment as CourierCreateShipmentContract;
 use Sylapi\Courier\Inpost\Responses\Shipment as ShipmentResponse;
 use Sylapi\Courier\Responses\Shipment as ResponseShipment;
