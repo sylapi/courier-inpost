@@ -8,11 +8,10 @@ use Exception;
 use Sylapi\Courier\Contracts\Booking;
 use Sylapi\Courier\Inpost\Responses\Parcel as ParcelResponse;
 use GuzzleHttp\Exception\ClientException;
-use Sylapi\Courier\Helpers\ResponseHelper;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
-use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Contracts\CourierPostShipment as CourierPostShipmentContract;
+use Sylapi\Courier\Responses\Parcel as ResponseParcel;
 
 class CourierPostShipment implements CourierPostShipmentContract
 {
@@ -25,7 +24,7 @@ class CourierPostShipment implements CourierPostShipmentContract
         $this->session = $session;
     }
 
-    public function postShipment(Booking $booking): ResponseContract
+    public function postShipment(Booking $booking): ResponseParcel
     {
         $response = new ParcelResponse();
 

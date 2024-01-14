@@ -9,9 +9,9 @@ use Sylapi\Courier\Enums\StatusType;
 use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
-use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Inpost\Responses\Status as StatusResponse;
 use Sylapi\Courier\Contracts\CourierGetStatuses as CourierGetStatusesContract;
+use Sylapi\Courier\Responses\Status as ResponseStatus;
 
 class CourierGetStatuses implements CourierGetStatusesContract
 {
@@ -25,7 +25,7 @@ class CourierGetStatuses implements CourierGetStatusesContract
         $this->session = $session;
     }
 
-    public function getStatus(string $shipmentId): ResponseContract
+    public function getStatus(string $shipmentId): ResponseStatus
     {
         try {
             return $this->getStatusByShipmentId($shipmentId);
@@ -66,7 +66,7 @@ class CourierGetStatuses implements CourierGetStatusesContract
     }
 
     /* @phpstan-ignore-next-line */
-    private function getStatusByTrackingId(string $shipmentId): StatusResponse
+    private function getStatusByTrackingId(string $shipmentId): ResponseStatus
     {
         $stream = $this->session
         ->client()

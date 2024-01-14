@@ -12,6 +12,7 @@ use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
 use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Contracts\CourierCreateShipment as CourierCreateShipmentContract;
 use Sylapi\Courier\Inpost\Responses\Shipment as ShipmentResponse;
+use Sylapi\Courier\Responses\Shipment as ResponseShipment;
 
 class CourierCreateShipment implements CourierCreateShipmentContract
 {
@@ -24,7 +25,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
         $this->session = $session;
     }
 
-    public function getShipmentId(string $trackingId): ResponseContract
+    public function getShipmentId(string $trackingId): ResponseShipment
     {
         $response = new ShipmentResponse();
         $response->setTrackingId($trackingId);
@@ -71,7 +72,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
         return $response;
     }
 
-    public function getTrackingId(string $shipmentId): ResponseContract
+    public function getTrackingId(string $shipmentId): ResponseShipment
     {
         $response = new ShipmentResponse();
 
@@ -119,7 +120,7 @@ class CourierCreateShipment implements CourierCreateShipmentContract
         return $response;
     }
 
-    public function createShipment(Shipment $shipment): ResponseContract
+    public function createShipment(Shipment $shipment): ResponseShipment
     {
         $response = new ShipmentResponse();
         try {

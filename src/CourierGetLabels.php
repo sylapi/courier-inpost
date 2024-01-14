@@ -9,9 +9,9 @@ use Sylapi\Courier\Inpost\Responses\Label as LabelResponse;
 use GuzzleHttp\Exception\ClientException;
 use Sylapi\Courier\Exceptions\TransportException;
 use Sylapi\Courier\Inpost\Helpers\ResponseErrorHelper;
-use Sylapi\Courier\Contracts\Response as ResponseContract;
 use Sylapi\Courier\Contracts\CourierGetLabels as CourierGetLabelsContract;
 use Sylapi\Courier\Contracts\LabelType as LabelTypeContract;
+use Sylapi\Courier\Responses\Label as ResponseLabel;
 
 class CourierGetLabels implements CourierGetLabelsContract
 {
@@ -24,7 +24,7 @@ class CourierGetLabels implements CourierGetLabelsContract
         $this->session = $session;
     }
 
-    public function getLabel(string $shipmentId, LabelTypeContract $labelType): ResponseContract
+    public function getLabel(string $shipmentId, LabelTypeContract $labelType): ResponseLabel
     {
         try {
             $stream = $this->session
