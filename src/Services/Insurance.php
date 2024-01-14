@@ -1,6 +1,6 @@
 <?php
 
-namespace Sylapi\Courier\Gls\Services;
+namespace Sylapi\Courier\Inpost\Services;
 
 use InvalidArgumentException;
 
