@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sylapi\Courier\Inpost;
+namespace Sylapi\Courier\Inpost\Enums;
 
 
 class Services{
