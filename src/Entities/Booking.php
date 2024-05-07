@@ -10,33 +10,21 @@ use Sylapi\Courier\Abstracts\Booking as BookingAbstract;
 
 class Booking extends BookingAbstract
 {
-    protected string $dispatchPointId;
-    protected string $dispatchPointAddress;
+    protected array $dispatchPointAddress;
 
-    public function setDispatchPointId(string $dispatchPointId): self
-    {
-        $this->dispatchPointId = $dispatchPointId;
 
-        return $this;
-    }
 
-    public function setDispatchPointAddress(string $dispatchPointAddress): self
+    public function setDispatchPointAddress(array $dispatchPointAddress): self
     {
         $this->dispatchPointAddress = $dispatchPointAddress;
 
         return $this;
     }
 
-    public function getDispatchPoint(): array 
+    public function getDispatchPointAddress(): array 
     {
-        if ($this->dispatchPointId) {
-            return [
-                'dispatch_point_id' => $this->dispatchPointId,
-            ];
-        } elseif ($this->dispatchPointAddress) {
-            return [
-                'address' => $this->dispatchPointAddress,
-            ];
+        if ($this->dispatchPointAddress) {
+            return $this->dispatchPointAddress;
         } else {
             throw new ValidateException('Dispatch point is not defined');
         }

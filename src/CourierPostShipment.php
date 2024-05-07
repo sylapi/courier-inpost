@@ -35,7 +35,7 @@ class CourierPostShipment implements CourierPostShipmentContract
             /**
              * @var \Sylapi\Courier\Inpost\Entities\Booking $booking
              */
-            $request = array_merge($request, $booking->getDispatchPoint());
+            $request = array_merge($request, $booking->getDispatchPointAddress());
 
             $stream = $this->session
                 ->client()
