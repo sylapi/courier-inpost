@@ -20,8 +20,6 @@ jobs:
         run: phpstan analyse src tests               
       - name: Run test suite
         run: vendor/bin/phpunit
-      - name: Run test coverage
-        run: vendor/bin/phpunit --verbose --coverage-text
       - name: Run test coverage.xml
         run: vendor/bin/phpunit --coverage-clover coverage.xml         
       - uses: codecov/codecov-action@v1
