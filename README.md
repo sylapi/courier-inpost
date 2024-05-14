@@ -1,6 +1,6 @@
 # Courier-inpost
 
-![StyleCI](https://github.styleci.io/repos/251561035/shield?style=flat&style=flat) ![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat) [![Build](https://github.com/sylapi/courier-inpost/actions/workflows/build.yaml/badge.svg?event=push)](https://github.com/sylapi/courier-inpost/actions/workflows/build.yaml) [![codecov.io](https://codecov.io/github/sylapi/courier-inpost/coverage.svg)](https://codecov.io/github/sylapi/courier-inpost/)
+![PHPStan](https://img.shields.io/badge/PHPStan-level%205-brightgreen.svg?style=flat) [![codecov.io](https://codecov.io/github/sylapi/courier-inpost/coverage.svg)](https://codecov.io/github/sylapi/courier-inpost/)
 
 ## Methody
 
