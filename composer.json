@@ -17,7 +17,8 @@
         "php": ">=8.2.0",
         "sylapi/courier": "v3.0.0",
         "guzzlehttp/guzzle": "^7.2",
-        "rakit/validation": "^1.4"
+        "rakit/validation": "^1.4",
+        "brick/phonenumber": "^0.6.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
