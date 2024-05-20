@@ -7,10 +7,19 @@ namespace Sylapi\Courier\Inpost\Entities;
 use Rakit\Validation\Validator;
 use Brick\PhoneNumber\PhoneNumber;
 use Sylapi\Courier\Abstracts\Receiver as ReceiverAbstract;
+use Sylapi\Courier\Contracts\Address;
 
 class Receiver extends ReceiverAbstract
 {
     private $phone;
+
+
+    public function setPhone(string $phone): Address
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
 
     public function getPhone(): ?string
     {
